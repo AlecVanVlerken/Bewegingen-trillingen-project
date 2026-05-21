@@ -2,7 +2,8 @@
 
 **Compared notebooks:**
 - **Ours — Notebook 1 - Examen.ipynb** (kinematic analysis)
-- **Ours — Notebook 2.ipynb** (inverse dynamics)
+- **Ours — Notebook 2.ipynb** (inverse dynamics, inertia only)
+- **Ours — Notebook 3.ipynb** (inverse dynamics + gravity + friction + static hold)
 - **Friend's — Umbrella_Linkage_Project-intermediatefinalversion (1).ipynb** (kinematics + dynamics, 68 cells)
 
 ---
@@ -36,6 +37,20 @@ The work is split across two separate notebooks connected via a `.npz` transfer 
 8. Output save
 
 Both notebooks have detailed markdown cells before each code section explaining the theory and purpose. Each major cell is preceded by a theoretical derivation in the markdown — a strength for exam readability.
+
+**Notebook 3** extends the dynamics chain further:
+1. Introduction explaining the three-notebook workflow
+2. Data loading from both `.npz` files, with strict key validation
+3. Parameters for gravity, Coulomb slider friction (μ = 0.05, μ_static = 0.08), viscous slider damping (c = 0), and pin friction (μ_pin = 0.05, pin radius = 6 mm)
+4. Rigid-body kinematics reconstruction (identical to Notebook 2)
+5. Extended `build_inverse_dynamics_system` accepting known external forces (gravity, slider friction, pin friction moments) on the RHS
+6. Iterative friction solver (3 iterations, convergence tolerance 1e-8)
+7. Three solution cases: inertia-only check vs. Notebook 2, gravity-only, gravity + friction
+8. Force decomposition plots: inertia / gravity / slider friction / pin friction components
+9. Static hold analysis: required holding force vs. slider position across the full range
+10. Power and actuator analysis with all loads
+11. Frame loading and shaking force comparison
+12. Output save to `notebook3_gravity_friction_results.npz`
 
 ### Friend's notebook
 
@@ -188,20 +203,26 @@ This is the most significant structural difference between the two notebooks.
 
 The friend's validation approach is far more thorough and pedagogically stronger. Showing absolute and relative errors on a log scale for three independent joints (not just checking the closure norm) gives much better confidence that the kinematic chain is correct throughout the motion. Our scalar residual confirms the loop equations are satisfied but does not verify that individual joint positions are correctly propagated.
 
-On the other hand, our condition number analysis (absent in the friend's notebook) is a unique and valuable addition that reveals numerical sensitivity and identifies configurations close to singularity.
+On the other hand, our condition number analysis (absent in the friend's notebook) is a unique and valuable addition that reveals numerical sensitivity and identifies configurations close to singularity. And our three-notebook chain goes significantly further than the friend's on the dynamics side: Notebook 3 adds gravity, Coulomb friction at the slider and all nine hinges, payload mass at K, static hold force analysis, and a complete load decomposition — none of which appear in the friend's notebook.
 
 ---
 
 ### Dynamics Setup
 
-| Property | Our Notebook 2 | Friend's notebook |
-|---|---|---|
-| Gravity | Not included | Yes, `g = 9.81 m/s²` in all Newton-Euler equations |
-| Mass model | Line mass density = 1.0 kg/m (placeholder) | Steel density ρ = 7800 kg/m³, rod diameter d = 0.02 m |
-| Number of unknowns | 21 | 33 |
-| Hinge treatment | One force pair per hinge shared across links | Separate force variable on each side of multi-link hinges (Newton's 3rd law as explicit equations) |
-| External load | None (inertial only) | None (inertial + gravity) |
-| FBDs | Not included | Referenced via image paths (cells 36-41) |
+| Property | Our Notebook 2 | Our Notebook 3 | Friend's notebook |
+|---|---|---|---|
+| Gravity | Not included | Yes, `g = 9.81 m/s²` | Yes, `g = 9.81 m/s²` |
+| Slider friction | Not included | Coulomb (μ=0.05) + viscous (c=0) | Not included |
+| Pin friction | Not included | Coulomb (μ_pin=0.05, r=6 mm) per hinge | Not included |
+| Payload at K | Not included | Yes, `payload_mass_K = 3.0 kg` | Not included |
+| Mass model | Line mass density = 1.0 kg/m (placeholder) | Loaded from Notebook 2 `.npz` | Steel ρ=7800 kg/m³, d=0.02 m |
+| Number of unknowns | 21 | 21 (same system structure) | 33 |
+| Hinge treatment | One force pair per hinge | Same, friction added to RHS | Separate force per link side |
+| External loads | None | Gravity + friction + payload | Gravity only |
+| FBDs | Not included | Not included | Referenced via images |
+| Static hold analysis | Not included | Full curve F_hold vs. s | Not included |
+
+**Notebook 3 friction model details:** Slider friction uses a smooth Coulomb model `F_coulomb = -μ * |R_Ax| * tanh(ds / v_eps)` where `tanh` replaces the discontinuous sign function, avoiding numerical issues at zero velocity. Pin friction applies `M = μ_pin * r_pin * N_joint * tanh(ω_rel / ω_eps)` at each hinge as known moments on the RHS, requiring an iterative solution (3 iterations of the full 21-equation system). Convergence is confirmed by checking `||w_next - w_current|| < 1e-8`. The maximum iteration change is `4.428e-3`, meaning the friction solution does not fully converge to `1e-8` but reaches a practical engineering accuracy. A stricter tolerance or more iterations would improve this.
 
 The difference in unknown count (21 vs 33) arises because:
 - The friend explicitly separates hinge forces per link at multi-link joints (ternary joints) and adds Newton's 3rd law equality constraints as extra equations. This yields a 33×33 system that is more transparent but larger.
@@ -213,10 +234,16 @@ Both approaches are valid. The friend's 33-unknown formulation mirrors what is t
 
 ### Dynamics Validation
 
-**Ours:**
+**Notebook 2 (ours):**
 - Residual check: `||A w - b||` per time step (maximum `1.242e-14` N, printed)
 - Global force balance: `||F_ext - Σ m a_cg||` (maximum `2.294e-14` N)
 - Global moment balance about C (maximum `1.776e-15` Nm)
+
+**Notebook 3 (ours):**
+- Inertia-only case cross-checked against Notebook 2: `max diff = 0.000e+00 N` — exact match, confirming the load-extension is consistent.
+- Residual check for the gravity case: `1.375e-13` N (machine precision)
+- Residual check for the total (gravity + friction) case: `1.394e-13` N
+- No energy balance or momentum balance check is performed — this is a gap relative to the friend's notebook.
 
 **Friend's:**
 - Energy balance: `P_drive = dT/dt + Σ m g v_cog,y` (checks kinetic energy theorem with gravity correction)
@@ -229,12 +256,20 @@ The friend's energy balance check is more physically meaningful: it tests whethe
 
 ### Motor / Actuator Analysis
 
-**Ours (Notebook 2):**
+**Notebook 2 (ours, inertia only):**
 - Models a rotary motor with a screw spindle (`screw_lead = 0.005 m/rev`)
 - Converts linear driving force to motor torque: `T = F * lead / (2π * η)`
 - Computes peak and RMS torque, peak RPM, peak and regenerative power
 - Includes safety factors (1.5× actuator, 1.3× design margin)
 - Output: peak torque 0.2155 Nm, RMS torque 0.0251 Nm, peak RPM 4123.3
+- **Important caveat:** these numbers are unrealistically small because gravity is omitted.
+
+**Notebook 3 (ours, full load):**
+- Same screw spindle model (`screw_lead = 0.005 m/rev`, η = 0.80, safety factor 1.50)
+- Now includes gravity, friction, and 3 kg payload at K
+- Output: peak motor torque 0.1135 Nm (safety-factored), peak RPM same as Notebook 2
+- Also provides static hold analysis: `F_hold = 30.75 N` in open stand, requiring spindel/brake torque of `T_hold_lock = 1.50 × 30.75 × 0.005 / (2π × 0.80) = 0.046 Nm` to hold position without active actuation.
+- The peak actuator power is 31.48 W (vs. ~0 W in the inertia-only case), driven entirely by lifting the weight of the links during opening.
 
 **Friend's:**
 - Uses the Les 4 arbeids-surplus (A_max) approach
@@ -281,20 +316,30 @@ The closure residual difference (`5.463e-13` vs `~10⁻⁸`) reflects the differ
 
 ### Dynamic outputs
 
-| Quantity | Our result | Friend's result |
-|---|---|---|
-| Max driving force | `144.445 N` | Much lower (different params + gravity + different motion law) |
-| Max shaking force | `9.071 N` | Different (gravity included, different masses) |
-| Max shaking moment about C | `12.515 Nm` | Non-zero oscillating signal (includes gravity contribution) |
-| Motor peak torque | `0.2155 Nm` (with safety factor) | Different (gear-ratio dependent) |
-| Motor peak RPM | `4123.3 rpm` | `1500 rpm` (chosen as input) |
-| Energy buffer A_max | Not computed | Computed (Les 4 method) |
+| Quantity | Notebook 2 (inertia only) | Notebook 3 (full load) | Friend's result |
+|---|---|---|---|
+| Max driving force | `144.445 N` | `76.06 N` | Much lower (different params + motion law) |
+| Gravity component of F_s | — | `63.43 N` (dominant) | Included but not decomposed |
+| Slider friction component | — | `38.32 N` | Not modelled |
+| Pin friction component | — | `1.80 N` | Not modelled |
+| Inertia component of F_s | `144.445 N` | `3.17 N` | — |
+| Static hold force (open) | — | `30.75 N` | Not computed |
+| Max shaking force | `9.071 N` | `73.95 N` (net frame) | Different |
+| Max frame reaction at C | `~C_norm` | `798.40 N` | Different |
+| Motor peak torque | `0.2155 Nm` | `0.1135 Nm` | Different (gear-ratio dependent) |
+| Motor peak RPM | `4123.3 rpm` | Same | `1500 rpm` (input choice) |
+| Peak actuator power | `~0 W` | `31.48 W` | Different |
+| Energy buffer A_max | Not computed | Not computed | Computed (Les 4 method) |
 
-Results are not numerically comparable because:
+**Important finding from Notebook 3:** The inertial component of the driving force (`3.17 N`) is about **20× smaller** than the gravitational component (`63.43 N`). This means Notebook 2 in isolation was essentially useless for engineering design — the dominant load is quasi-static weight, not dynamics. Notebook 3 corrects this and provides the realistic actuator sizing numbers.
+
+The large discrepancy between `F_drive_s` in Notebook 2 (`144.445 N`) and Notebook 3 (`3.17 N` inertia, `76.06 N` total) is explained by the different mass model and motion speed: Notebook 2 uses `total_model_mass = 7.5 kg` (loaded from a later version of Notebook 2 that includes the payload) with a fast half-cosine (8 s movement), while the `3.17 N` inertia figure in Notebook 3 comes from the same kinematics reloaded from the same `.npz`. The `144.445 N` figure in Notebook 2's own output was computed with a different run state — this should be investigated.
+
+Results are not numerically comparable with the friend's notebook because:
 1. Different link lengths (L1 = 2.5 m vs 2.0 m)
-2. Different mass models (placeholder 1 kg/m vs steel density)
-3. Different motion laws (half-cosine vs sinusoidal)
-4. Gravity included in friend's, excluded in ours
+2. Different mass models and total masses
+3. Different motion laws (half-cosine with hold vs sinusoidal)
+4. Different payload assumptions
 
 ### Plots comparison
 
@@ -311,6 +356,13 @@ Results are not numerically comparable because:
 - 2×2 shaking force subplot
 - 2×2 actuator analysis subplot
 - Torque-speed curve (if generated)
+
+**Our Notebook 3 plots:**
+- 2×2 force decomposition (total/gravity/inertia vs time, components vs time, components vs s, slider normal + friction)
+- 1×2 pin friction (friction moment per hinge vs time, total pin power dissipation)
+- 1×2 static hold analysis (hold force vs s, absolute hold force vs slider friction capacity)
+- 2×2 actuator with full loads (position, total vs inertia force, power, motor torque)
+- 2×2 frame loading (support reactions at A and C, components, shaking comparison, loads vs s)
 
 **Friend's plots:**
 - Initial configuration single plot (colored per link)
@@ -338,6 +390,8 @@ The friend's plotting is considerably more complete: all 6 angular velocities/ac
 
 ### What our friend did better than us (be specific)
 
+> Note: with Notebook 3 now in scope, items 2 and 3 below are no longer gaps — our analysis goes further than the friend's on loads. Items 1, 4, 5, 6, 7, 8, and 9 remain valid gaps.
+
 1. **Systematic multi-joint validation with log-scale error plots.** The friend validates position, velocity, and acceleration at three independent joints (E, G, I) by computing each quantity via two different chains and plotting the difference on a log scale. We only check the closure residual as a scalar and the velocity residual as a scalar. The friend's approach catches errors in the position-propagation code that our approach would miss entirely.
 
 2. **Gravity included in the dynamics.** Our inverse dynamics deliberately omits gravity (`Zwaartekracht, windbelasting en wrijving worden in deze versie nog niet meegenomen`). The friend's dynamics include `g = 9.81 m/s²` in all Newton-Euler equations, giving physically realistic force values. For a real umbrella, the dominant static load is gravity; omitting it means our driving-force numbers are only meaningful during high-speed motion.
@@ -362,31 +416,31 @@ The friend's plotting is considerably more complete: all 6 angular velocities/ac
 
 ### What we can improve in our own notebook
 
-1. **Add gravity to Notebook 2.** At minimum, document why it is omitted and provide a numerical estimate of the gravitational load to verify it is small compared to inertial loads. If not small, implement it.
+1. **Gravity is now in Notebook 3 — the concern is now sequencing.** Notebook 2 still omits gravity, which means its standalone output (`144.445 N`) is misleading without immediately reading Notebook 3. Consider adding a clear warning cell in Notebook 2 that gravity is excluded and referencing Notebook 3 for the complete picture.
 
 2. **Validate all joint positions and velocities, not just closure residual.** Add cross-chain checks for at least joints E, G, and J, showing absolute and relative errors on a log scale. The current scalar residual does not catch sign errors in the position-propagation code.
 
 3. **Plot angular velocities and accelerations for all 6 links** in Notebook 1, not just link 8. The current plots for link 8 only give a partial picture of the mechanism dynamics.
 
-4. **Add the A_max (arbeids-surplus) calculation to Notebook 2.** Compute `∫(P-P_avg)dt` and report A_max as part of the motor analysis. This is the direct application of Les 4.
+4. **Add the A_max (arbeids-surplus) calculation to Notebook 3.** Compute `∫(P-P_avg)dt` with the full load and report A_max. This is the Les 4 method and is absent from all three of our notebooks.
 
-5. **Use a physically motivated mass model** or at least clearly document the placeholder and its implications. Either adopt the steel density approach or provide sensitivity analysis for how mass scaling affects peak forces.
+5. **Add an energy balance check to Notebook 3.** The friend validates dynamics via the kinetic energy theorem (`P_drive = dT/dt + P_gravity`). We validate only via residual norms. Adding this check to Notebook 3 would be more rigorous.
 
-6. **Add a mechanism insights section.** Write a markdown cell at the end of Notebook 2 discussing: the absence of singularities, which links contribute most to shaking forces, and physical interpretation of the results.
+6. **Investigate the F_drive discrepancy between Notebooks 2 and 3.** Notebook 2 prints `max |F_drive| = 144.445 N` while Notebook 3 reports the inertia-only component as `3.17 N` (same kinematic input, but different run). This large difference suggests the two notebooks were run with different mass parameters. The `.npz` loaded by Notebook 3 shows `total_model_mass = 7.5 kg` with `payload_mass_K = 3.0 kg`, while Notebook 2 used `line_mass_density = 1.0 kg/m`. Clarify and document which mass model is the design baseline.
 
-7. **Remove code duplication.** Notebook 1 computes the velocity of K twice (cell `orig-018` via chain propagation, cell `orig-020` via projection formulas) and the acceleration of K twice (cell `orig-022` vs `orig-024`). These produce the same result but add confusion. Remove one of each pair.
+7. **Friction convergence is not fully achieved.** The maximum iteration change is `4.428e-3`, which is well above the `1e-8` tolerance. Either increase the number of iterations (try 10 or 20) or document that the 3-iteration result is accurate enough for engineering purposes (e.g., by showing the iteration history converges monotonically).
 
-8. **Add a topology cell** at the top of Notebook 1 describing which joints each link connects, following the friend's clear notation (e.g., `Stang 3 (B→D→E)`).
+8. **Remove code duplication.** Notebook 1 computes the velocity of K twice (cell `orig-018` via chain propagation, cell `orig-020` via projection formulas) and the acceleration of K twice. Remove one of each pair.
 
-9. **Explain the coordinate system choice explicitly.** The choice of C at the origin with s measured downward is non-obvious. A short explanatory figure or markdown cell would help a reader understand why large s = closed.
+9. **Add a topology cell** at the top of Notebook 1 describing which joints each link connects (`Stang 3 (B→D→E)`).
 
-10. **Add condition number analysis to dynamics.** We compute kinematic condition numbers but not the condition number of the 21×21 dynamics matrix. Reporting `cond(A_dyn)` helps assess whether the dynamic solution is numerically stable.
+10. **Add condition number analysis to dynamics.** Notebook 3 does report `cond(A_dyn)`, which is good. Make sure this is also consistent with Notebook 2.
 
 ---
 
 ### Bugs, inefficiencies, or missed opportunities
 
-**In our notebooks:**
+**In our notebooks (Notebooks 1, 2, 3):**
 
 - **Duplicate K velocity/acceleration computation (Notebook 1).** Cells `orig-018` and `orig-020` both compute `Kdot_x`, `Kdot_y`, and `Kdot_norm`, overwriting the variables. Similarly cells `orig-022` and `orig-024` both compute `Kddot_x`, `Kddot_y`, `Kddot_norm`. The second calculation silently overwrites the first. The first (chain-propagation) method is more general; the second (projection) method is a duplicate. **Bug risk:** if one contains an error, the other silently replaces it without any warning.
 
@@ -397,6 +451,12 @@ The friend's plotting is considerably more complete: all 6 angular velocities/ac
 - **Notebook 2: inertial hold force is identically zero** by construction (when `ds=0` and `dds=0`, the Newton-Euler RHS is zero). The code correctly identifies this but should document it more explicitly as a limitation rather than a result.
 
 - **`F_drive_s = -F_actuator_y` sign convention** could confuse a reader. The choice of positive s direction (downward) means the driving force convention is inverted relative to the global y axis. This is correct but deserves a clearer comment.
+
+- **Notebook 3: friction iterations do not converge to tolerance.** `max iteratieverandering wrijving = 4.428e-3` against a `friction_tol = 1e-8`. The 3 fixed iterations are insufficient for strict convergence. The tanh-smoothed Coulomb model is well-conditioned so more iterations would converge, but the code exits after 3 regardless. This introduces a small but non-zero error into all friction-dependent quantities (pin moments, slider friction, and consequently F_drive_s_total).
+
+- **Notebook 3: static hold analysis loops over all time steps sorted by s,** rather than solving a dedicated static problem at a finer grid. The hold positions are sampled at whatever (s, θ) pairs the dynamic simulation happened to visit. Since the simulation uses a half-cosine profile, the density of time steps near the endpoints is higher, which is acceptable here but could give a misleading picture if the dynamic solution and the true static equilibrium geometry differ (they do not in this case because the static case sets all accelerations to zero, not the angles).
+
+- **Notebook 3: `friction_sign_check = max(F_fric_slider_s * ds) = -1.436e-10`** is printed as a verification that slider friction opposes motion (should be ≤ 0). The value is essentially zero (round-off from the tanh approximation), which is correct, but the check is only performed for the motionmask window and could miss the transition at zero velocity.
 
 **In the friend's notebook:**
 
