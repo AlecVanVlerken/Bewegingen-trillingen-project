@@ -390,13 +390,7 @@ The friend's plotting is considerably more complete: all 6 angular velocities/ac
 
 ### What our friend did better than us (be specific)
 
-> Note: with Notebook 3 now in scope, items 2 and 3 below are no longer gaps — our analysis goes further than the friend's on loads. Items 1, 4, 5, 6, 7, 8, and 9 remain valid gaps.
-
 1. **Systematic multi-joint validation with log-scale error plots.** The friend validates position, velocity, and acceleration at three independent joints (E, G, I) by computing each quantity via two different chains and plotting the difference on a log scale. We only check the closure residual as a scalar and the velocity residual as a scalar. The friend's approach catches errors in the position-propagation code that our approach would miss entirely.
-
-2. **Gravity included in the dynamics.** Our inverse dynamics deliberately omits gravity (`Zwaartekracht, windbelasting en wrijving worden in deze versie nog niet meegenomen`). The friend's dynamics include `g = 9.81 m/s²` in all Newton-Euler equations, giving physically realistic force values. For a real umbrella, the dominant static load is gravity; omitting it means our driving-force numbers are only meaningful during high-speed motion.
-
-3. **Physically motivated mass model.** We use `line_mass_density = 1.0 kg/m` as a placeholder. The friend uses steel density (ρ = 7800 kg/m³) and a rod diameter (d = 0.02 m), giving `mass_per_length ≈ 2.44 kg/m` and physically interpretable absolute masses. This is a more defensible choice for a structural analysis.
 
 4. **Les 4 arbeids-surplus (A_max) motor sizing.** We size the motor via a simple screw-spindle formula without computing A_max. The friend explicitly computes A_max using the energy-balance integral and uses it to justify why no flywheel is needed — which is the textbook approach from Les 4. This would score better in a course context where the method is prescribed.
 
