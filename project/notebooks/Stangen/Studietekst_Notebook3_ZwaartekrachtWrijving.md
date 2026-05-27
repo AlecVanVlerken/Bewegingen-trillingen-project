@@ -3,9 +3,15 @@
 Deze studietekst werkt de uitbreidingen van Notebook 3 volledig uit. Notebook 2 had
 een puur inertiële analyse. Hier voegen we zwaartekracht, schuiverwrijving,
 scharnierwrijving en statische houdanalyse toe. Ten slotte behandelen we de
-arbeid-energiestelling als validatie en de arbeids-surplus als motordimensioneringsgroot-
-heid (les 4). Het doel is elk nieuw element te begrijpen: waar het vandaan komt, hoe
+arbeid-energiestelling als validatie en de arbeids-surplus als motordimensioneringsgrootheid
+(les 4). Het doel is elk nieuw element te begrijpen: waar het vandaan komt, hoe
 het in het stelsel terechtkomt, en wat het mechanisch betekent.
+
+**Workflow:** Notebook 3 laadt zowel `notebook1_kinematica_results.npz` (kinematica uit
+Notebook 1) als `notebook2_dynamica_results.npz` (massa's, inerties en inertiële resultaten
+uit Notebook 2). Daardoor blijven alle drie de notebooks consistent met dezelfde geometrie,
+hetzelfde schuivertraject en dezelfde dynamische parameters. De vereiste uitvoeringsvolgorde
+is: eerst Notebook 1, dan Notebook 2, dan Notebook 3.
 
 ---
 

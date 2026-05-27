@@ -67,20 +67,20 @@ link zitten.
 | Parameter | Waarde (m) | Betekenis |
 |-----------|-----------|-----------|
 | $L_1$ | 2.5 | Mastlengte |
-| $r_{3a}$ | 0.507 | Link 3, segment a |
-| $r_{3b}$ | 0.429 | Link 3, segment b |
-| $r_{4a}$ | 0.941 | Link 4, segment a |
-| $r_{4b}$ | 0.656 | Link 4, segment b |
-| $r_{5a}$ | 0.251 | Link 5, segment a |
-| $r_{5b}$ | 0.405 | Link 5, segment b |
-| $r_6$ | 0.680 | Link 6 (volledig) |
-| $r_{7a}$ | 0.429 | Link 7, segment a |
-| $r_{7b}$ | 0.252 | Link 7, segment b |
-| $r_{8a}$ | 0.405 | Link 8, segment a |
-| $r_{8b}$ | 0.500 | Link 8, segment b |
+| $r_{3a}$ | 0.507375 | Link 3, segment a |
+| $r_{3b}$ | 0.428535 | Link 3, segment b |
+| $r_{4a}$ | 0.941041 | Link 4, segment a |
+| $r_{4b}$ | 0.655989 | Link 4, segment b |
+| $r_{5a}$ | 0.251430 | Link 5, segment a |
+| $r_{5b}$ | 0.404558 | Link 5, segment b |
+| $r_6$ | 0.680427 | Link 6 (volledig) |
+| $r_{7a}$ | 0.428535 | Link 7, segment a |
+| $r_{7b}$ | 0.251892 | Link 7, segment b |
+| $r_{8a}$ | 0.404558 | Link 8, segment a |
+| $r_{8b}$ | 0.499793 | Link 8, segment b |
 
-Het schuiverbereik loopt van $s_{\text{open}} = 0.125\,\text{m}$ (open toestand) tot
-$s_{\text{closed}} = 1.875\,\text{m}$ (gesloten toestand).
+Het schuiverbereik loopt van $s_{\text{open}} = 0.750\,\text{m}$ (open toestand) tot
+$s_{\text{closed}} = 1.850\,\text{m}$ (gesloten toestand).
 
 ### 3.2 Mobiliteitsformule (Grübler–Kutzbach)
 

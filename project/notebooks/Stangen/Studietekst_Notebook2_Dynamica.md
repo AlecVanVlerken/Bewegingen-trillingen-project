@@ -409,7 +409,7 @@ Notebook 1 (kinematica)
           ↓
           notebook1_kinematica_results.npz
           ↓
-Notebook 2 (dynamica)
+Notebook 2 (dynamica — inertie only)
   │
   ├── Zwaartepuntkinematica: rigid_point()
   │       → a_cg,i en α_i voor alle links
@@ -419,9 +419,15 @@ Notebook 2 (dynamica)
   │
   ├── Globale controle: F_ext = Σ m·a_cg
   │
+  ├── Energiebalans-validatie: P_act = dEkin/dt
+  │
   ├── Aandrijfkracht: F_s = -F_act,y
   ├── Onbalans: F_shak = -(F_A + F_C)
   └── Actuatoranalyse: P = F_s·ṡ, T = F_s·p/(2π·η)
+          ↓
+          notebook2_dynamica_results.npz
+          ↓
+Notebook 3 (dynamica — zwaartekracht + wrijving)
 ```
 
 ---
