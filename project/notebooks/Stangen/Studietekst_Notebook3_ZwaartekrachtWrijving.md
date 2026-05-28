@@ -251,7 +251,7 @@ De notebook rapporteert de volgende typische waarden:
 |----------|-----------------|---------|
 | Inertieel (Notebook 2) | ~3 N | klein |
 | Zwaartekracht | ~63 N | dominant |
-| Schuiverwrijving | ~38 N | groot |
+| Schuiverwrijving | zie Notebook 3-samenvatting | groot |
 | Scharnierwrijving | ~2 N | klein |
 
 **Conclusie:** dit is een **quasi-statisch** mechanisme. De zwaartekracht domineert;
@@ -260,7 +260,7 @@ lagere massa of betere geleiding heeft veel meer effect dan het verlengen van de
 bewegingstijd.
 
 > ⚠️ **Belangrijk voor mondeling:** "Welke bijdrage domineert in de aandrijfkracht?"
-> → zwaartekracht (~63 N), gevolgd door wrijving (~38 N), daarna inertie (~3 N).
+> → zwaartekracht en schuiverwrijving, daarna inertie.
 > Dit is mechanisme-specifiek en verschilt bij hogere snelheden of zwaardere links.
 
 ---
@@ -426,7 +426,7 @@ $$A_{\max} = \max_k A_\theta(t_k) - \min_k A_\theta(t_k)$$
 ### 9.2 Interne krachtsoverdracht
 
 De steunreacties in punt A (schuiver) en punt C (framebevestiging van link 4) zijn elk
-circa **800 N**, terwijl de netto externe framekracht slechts circa **74 N** is.
+duidelijk groter dan de netto externe framekracht.
 
 **Hoe is dit mogelijk?** Het mechanisme heeft meerdere lussen. Interne gewrichtskrachten
 kunnen groot zijn terwijl ze bij optelling grotendeels wegvallen. De netto
