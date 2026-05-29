@@ -1,6 +1,6 @@
 # Examenvoorbereiding Mondeling – Paraplu-stangenmechanisme
 
-> **Gebaseerd op de actuele code-outputs van Notebook 1 - Examen, Notebook 2, Notebook 3 en Notebook 4.**
+> **Gebaseerd op de actuele code-outputs van Notebook 1, Notebook 2, Notebook 3 en Notebook 4.**
 > De prof kiest 4 van 10 vragen (elk 2,5/10). Vaste bijvraag: *"Hoeveel kost de motor, en hoeveel kost het energieverbruik?"*
 
 ---
@@ -9,61 +9,61 @@
 
 | Grootheid | Waarde | Notebook / cel |
 |-----------|--------|---------------|
-| Schuiverbereik | 1,8500 m (gesloten) → 0,7500 m (open) | NB1 `orig-008` |
+| Schuiverbereik | 1,8750 m (gesloten) → 0,1250 m (open) | NB1 output |
 | Bewegingsrichting in simulatie | **openen** (s daalt) | NB1 output |
-| Slag | 1,100 m | NB1 output |
-| $t_{\text{move}}$ gewenst / effectief | 14,00 s / **16,64 s** (auto-verlengd) | NB1 output |
-| $t_{\text{hold}}$ / $t_{\text{einde}}$ | 4,00 s / **20,65 s** | NB1 output |
-| Max snelheid schuiver | 0,2376 m/s | NB1 output |
-| Max versnelling schuiver | 0,0996 m/s² | NB1 output |
-| Max sluitingsfout (fsolve) | **3,631 × 10⁻¹⁰ m** | NB1 output |
-| Max snelheid punt K | **0,4258 m/s** bij s = 1,5818 m | NB1 `exam-summary` |
-| Max versnelling punt K | **0,1931 m/s²** bij s = 1,7541 m | NB1 `exam-summary` |
-| cond(A) min / gem / max | **4,70 / 10,68 / 18,38** | NB1 `exam-summary` |
-| Grootste cond(A) bij | t = 0,0 s, **s = 1,8500 m** (gesloten stand) | NB1 `exam-summary` |
-| Laagste snelheidsfactor (condition-aware) | **0,250** bij s = 1,8500 m | NB1 output |
+| Slag | 1,750 m | NB1 output |
+| $t_{\text{move}}$ gewenst / effectief | 14,00 s / **30,03 s** (auto-verlengd) | NB1 output |
+| $t_{\text{hold}}$ / $t_{\text{einde}}$ | 4,00 s / **34,05 s** | NB1 output |
+| Max snelheid schuiver | 0,2495 m/s | NB1 output |
+| Max versnelling schuiver | 0,0627 m/s² | NB1 output |
+| Max sluitingsfout (fsolve) | **5,779 × 10⁻¹³ m** | NB1 output |
+| Max snelheid punt K | **0,3763 m/s** bij s = 1,5730 m | NB1 samenvatting |
+| Max versnelling punt K | **0,1171 m/s²** bij s = 1,8374 m | NB1 samenvatting |
+| cond(A) min / gem / max | **4,70 / 35,02 / 68,36** | NB1 samenvatting |
+| Grootste cond(A) bij | t = 0,0 s, **s = 1,8750 m** (gesloten stand) | NB1 samenvatting |
+| Laagste snelheidsfactor (condition-aware) | **0,250** bij s = 1,8750 m | NB1 output |
 | Aantal kritische zones (cond > 1000) | **0** | NB1 `orig-026` |
 | Totale bewegende massa | **7,500 kg** | NB2/NB3 output |
 | Puntmassa K | 3,000 kg | NB2 `dyn-params` |
-| **F_s max inertie only** | **2,76 N** | NB2 `dyn-save` |
+| **F_s max inertie only** | **3,17 N** | NB2 output |
 | **F_s max zwaartekrachtcomponent** | **63,43 N** | NB3 output |
-| **F_s max schuiverwrijvingcomponent** | **6,09 N** | NB3 output |
-| **F_s max scharnierwrijving/effect** | **0,50 N** | NB3 output |
-| **F_s max totaal** | **68,85 N** | NB3 `samenvatting` |
-| RMS F_s totaal tijdens beweging | 65,83 N | NB3 output |
-| Onbalanskracht max (inertie only) | 0,943 N | NB2 dyn-force |
-| Onbalansmoment max (inertie only) | 1,483 Nm | NB2 dyn-force |
-| Netto framekracht max (totaal) | **74,22 N** | NB3 `534b66d2` |
-| Steunreactie schuiver max | **137,31 N** | NB3 `samenvatting` |
-| Steunreactie C max | **122,66 N** | NB3 `samenvatting` |
+| **F_s max schuiverwrijvingcomponent** | **38,32 N** | NB3 output |
+| **F_s max scharnierwrijving/effect** | **1,80 N** | NB3 output |
+| **F_s max totaal** | **76,06 N** | NB3 samenvatting |
+| RMS F_s totaal tijdens beweging | 66,98 N | NB3 output |
+| Onbalanskracht max (inertie only) | 0,542 N | NB2 output |
+| Onbalansmoment max (inertie only) | 0,876 Nm | NB2 output |
+| Netto framekracht max (totaal) | **73,95 N** | NB3 output |
+| Steunreactie schuiver max | **797,85 N** | NB3 samenvatting |
+| Steunreactie C max | **798,40 N** | NB3 samenvatting |
 | Totaal modelgewicht | 73,57 N | NB3 output |
-| Houdkracht $F_{\text{hold}}$ (open stand) | **−62,67 N** | NB3 `555c5abe` |
-| Wrijvingsgrens geleiding (open stand) | **9,77 N** (te weinig!) | NB3 `555c5abe` |
-| Piek actuatorvermogen (totaal) | **29,28 W** | NB3 `samenvatting` |
+| Houdkracht $F_{\text{hold}}$ (open stand) | **−30,75 N** | NB3 output |
+| Wrijvingsgrens geleiding (open stand) | **63,78 N** | NB3 output |
+| Piek actuatorvermogen (totaal) | **38,75 W** | NB3 samenvatting |
 | Rem/regeneratief vermogen | **0,00 W** (geen) | NB3 output |
-| Netto mechanische energie (openen) | **72,96 J** | NB3 output |
-| $A_{\max}$ inertie only | 0,3896 J | NB2 `nb2-amax` |
-| $A_{\max}$ totaal (incl. zwaartek. + wrijving) | **44,94 J** | NB3 `9f5be131` |
-| Piek motorkoppel (totaal, × 1,5) | **0,1027 Nm** | NB3 `samenvatting` |
-| RMS motorkoppel (totaal, × 1,5) | **0,0982 Nm** | NB3 output |
-| Spindel-/remkoppel voor houdfunctie (× 1,5) | **0,0935 Nm** | NB3 `555c5abe` |
-| Piek motortoerental | **2850,8 rpm** | NB3 output |
-| Aanbevolen nominaal motorvermogen | **≥ 9,5 W** | NB3 `9f5be131` |
-| Aanbevolen piek motorvermogen | **≥ 20,3 W** | NB3 `9f5be131` |
+| Netto mechanische energie (openen) | **119,81 J** | NB3 output |
+| $A_{\max}$ inertie only | 0,3096 J | NB2 output |
+| $A_{\max}$ totaal (incl. zwaartek. + wrijving) | **74,27 J** | NB3 output |
+| Piek motorkoppel poelie (totaal, × 1,5) | **4,39 Nm** | NB3 samenvatting |
+| RMS motorkoppel poelie (totaal, × 1,5) | **3,85 Nm** | NB3 output |
+| Spindel-/remkoppel voor houdfunctie (× 1,5) | **0,1165 Nm** | NB3 output |
+| Piek motortoerental | **2994,4 rpm** | NB3 output |
+| Aanbevolen nominaal motorvermogen | **≥ 9,7 W** | NB3 output |
+| Aanbevolen piek motorvermogen | **≥ 21,8 W** | NB3 output |
 | **— NB4: aandrijfarchitectuur —** | | |
 | Aandrijftype | Tandriem/kabel + 24 V DC/BLDC motor + rem | NB4 samenvatting |
 | Gekozen poelieradius | **25 mm** | NB4 auto-select |
 | Gekozen reductie | **60:1** | NB4 auto-select |
 | Totale aandrijfefficientie $\eta$ | **0,65** (riem + reductiekast) | NB4 parameters |
-| Mechanische piekbelasting (berekend) | **68,85 N** | NB4 via NB3 |
+| Mechanische piekbelasting (berekend) | **76,06 N** | NB4 via NB3 |
 | Praktische ontwerplijnkracht (vloer) | **200 N** (robuustheidseis) | NB4 parameters |
 | Ontwerp aandrijfkoppel uitgang | **7,69 Nm** → klasse ≥ 8 Nm | NB4 samenvatting |
 | Remkoppel aan uitgang | **3,13 Nm** (SF = 2) | NB4 samenvatting |
-| Piek-uitgangstoerental | **~91 rpm** | NB4 berekening |
-| Geschatte motorpieksnelheid | **~5400 rpm** | NB4 berekening |
-| Piek motor-ingangsvermogen (ontwerp) | **~90 W** (SF = 2, η = 0,65) | NB4 samenvatting |
-| Aanbevolen motorvermogen klasse | **135 W** | NB4 samenvatting |
-| Precisie motorencoder (na reductie) | **~0,004 mm/count** | NB4 precisiecel |
+| Piek-uitgangstoerental | **~95 rpm** | NB4 berekening |
+| Geschatte motorpieksnelheid | **~5719 rpm** | NB4 berekening |
+| Piek motor-ingangsvermogen (ontwerp) | **~51,7 W** (SF = 2, η = 0,65) | NB4 samenvatting |
+| Aanbevolen motorvermogen klasse | **~77,5 W** | NB4 samenvatting |
+| Precisie motorencoder (na reductie) | **~0,00064 mm/count** | NB4 precisiecel |
 | Dominante precisiefout | **mechanische speling ~1 mm** | NB4 precisiecel |
 
 > **Let op voor het mondeling:** de studietekst vermeldt verouderde waarden (bijv. schuiverwrijving ~38 N). De werkelijke waarden uit de code zijn aanzienlijk anders — gebruik **altijd** de bovenstaande tabel. NB4 vervangt de spindel door een tandriem + aparte rem; de NB3-spindelnummers zijn vervangen door de NB4-architectuur.
@@ -153,7 +153,7 @@ De goedkoopste optimalisatie is simpelweg het mechanisme lichter maken. De puntm
 ### ③ Verificatie in notebooks
 
 - **NB3 `96641a9c` output:** krachtdecompositie inertie/zwaartek./schuiverwrijving/scharnierwrijving
-- **NB3 `1b7be2ca` output:** rem/regeneratief = 0,00 W; netto energie = 72,96 J
+- **NB3 output:** rem/regeneratief = 0,00 W; netto energie = 119,81 J
 - **NB1 `val-pos-code` output:** sluitingsfout E = 1,07e-10 m ✓
 
 ---
@@ -208,7 +208,7 @@ NB4 concludeert expliciet dat een trekveer of gasveer mechanisch zinvoller is da
 
 **Welk profiel gebruikt de simulatie?**
 
-Wij gebruiken een **condition-aware s-curve**: een profiel dat de schuiver vertraagt in de gevoelige beginstand (factor 4 trager bij s = 1,85 m) en daarna geleidelijk versnelt. Het gevolg: de gewenste openingstijd van 14 s werd automatisch verlengd naar **16,64 s** omdat de veiligheidsmarge op de beginconfiguratie dat vereiste.
+Wij gebruiken een **condition-aware s-curve**: een profiel dat de schuiver vertraagt in de gevoelige beginstand (factor 4 trager bij s = 1,875 m) en daarna geleidelijk versnelt. Het gevolg: de gewenste openingstijd van 14 s werd automatisch verlengd naar **30,03 s** omdat de veiligheidsmarge op de beginconfiguratie dat vereiste.
 
 **Het fundamentele trade-off bij profielkeuze:**
 
@@ -224,7 +224,7 @@ Het profiel vertraagt expliciet in de gesloten beginstand (snelheidsfactor = 0,2
 
 ### ② Bijvragen
 
-**"Waarom werd de openingstijd automatisch verlengd van 14 naar 16,64 s?"**
+**"Waarom werd de openingstijd automatisch verlengd van 14 naar 30,03 s?"**
 > In de beginstand is de schuiver viermaal trager dan in de rest van de slag. Het profiel detecteert dat het de gewenste 14 s niet kan halen zonder die veiligheidsgrens te overschrijden, en verlengt automatisch. De mechanische veiligheid gaat voor boven de cyclustijd.
 
 **"Wat is het praktische voordeel van nul ruck aan de eindpunten?"**
@@ -240,16 +240,16 @@ NB4 berekent expliciet wat er gebeurt als hetzelfde traject sneller of trager wo
 | Factor λ | Beweegtijd | Piek F\_s | Piek vermogen | Zwaartekrachtarbeid |
 |----------|-----------|----------|--------------|---------------------|
 | 0,60 (sneller) | ~10 s | ↑ licht | **↑ sterk (~×2,8)** | onveranderd |
-| 1,00 (huidig) | 16,64 s | 68,85 N | 29,28 W | 72,96 J |
+| 1,00 (huidig) | 30,03 s | 76,06 N | 38,75 W | 119,81 J |
 | 1,50 (trager) | ~25 s | ↓ licht | **↓ (~×0,65)** | onveranderd |
 | 2,00 (trager) | ~33 s | ↓ marginaal | **↓ (~×0,48)** | onveranderd |
 
-Conclusie: de zwaartekrachtarbeid (72,96 J) is volledig onafhankelijk van λ — het gewicht moet altijd over dezelfde hoogte getild worden. Wat wél sterk schaalt: het **piekvermogen** (want P = F × v, en v schaalt als 1/λ). Trager bewegen levert een zwakkere en goedkopere motor op, maar de energiefactuur blijft dezelfde.
+Conclusie: de zwaartekrachtarbeid en wrijvingsarbeid (samen ongeveer 119,81 J mechanisch) zijn grotendeels onafhankelijk van λ — het gewicht moet altijd over dezelfde hoogte getild worden. Wat wél sterk schaalt: het **piekvermogen** (want P = F × v, en v schaalt als 1/λ). Trager bewegen levert een zwakkere en goedkopere motor op, maar de energiefactuur blijft bijna dezelfde.
 
 ### ③ Verificatie in notebooks
 
 - **NB1 `orig-008` output:** "richting/profiel: open / condition_scurve"
-- **NB1 `orig-008` output:** t_move effectief = 16,64 s; snelheidsfactor 0,250 bij s = 1,85 m
+- **NB1 output:** t_move effectief = 30,03 s; snelheidsfactor 0,250 bij s = 1,875 m
 - **NB1 studietekst:** formules voor Smooth-345 en Smooth-4567
 - **NB4 tijdschaalcel:** tabel met factor 0,60 → 2,00 voor piek F\_s, piek P en arbeid
 
@@ -261,13 +261,13 @@ Conclusie: de zwaartekrachtarbeid (72,96 J) is volledig onafhankelijk van λ —
 
 **Wat is de fundamentele frequentie van dit mechanisme?**
 
-De volledige openingscyclus duurt 20,65 s. De fundamentele frequentie is dus **0,048 Hz** — extreem laag. De vijfde harmonische zit nog maar op 0,24 Hz.
+De volledige openingscyclus duurt 34,05 s. De fundamentele frequentie is dus **0,029 Hz** — extreem laag. De vijfde harmonische zit nog maar op 0,15 Hz.
 
 **Waarom controleren we de frequentie-inhoud überhaupt?**
 
 Niet voor de motor of de stangen — die kunnen dit probleemloos aan. We controleren het voor de **dunne, flexibele paraplubaleinen** (de ribben). Die ribben zijn ontworpen om zo licht mogelijk te zijn, wat hen relatief gevoelig maakt voor vermoeiing. Als de aandrijving een component bevat die samenvalt met de eigenfrequentie van zo'n balein, gaat die balein resoneren. Bij resonantie nemen de buigspanningen snel toe en breekt de balein na een beperkt aantal cycli door vermoeiingsbreuk.
 
-De eigenfrequentie van een typische 2,5 m aluminium mast of rib ligt tussen 2 en 10 Hz. Onze hoogste relevante harmonische zit op 0,24 Hz — een factor 10 tot 40 lager. Er is **geen resonantierisico** bij de huidige openingstijd van 16,64 s.
+De eigenfrequentie van een typische 2,5 m aluminium mast of rib ligt tussen 2 en 10 Hz. Onze hoogste relevante harmonische zit op 0,15 Hz — ruim lager. Er is **geen resonantierisico** bij de huidige openingstijd van 30,03 s.
 
 Alleen als we de paraplu in 1 à 2 seconden zouden willen openen (factor 8–10 sneller), stijgt de fundamentele frequentie naar ~0,5 Hz en reiken harmonischen naar ~2,5 Hz. Dan komen we gevaarlijk dicht bij de eigenfrequenties van de ribben, en wordt frequentieanalyse een echte ontwerpeis.
 
@@ -334,8 +334,8 @@ De houdkracht in open stand is **−62,67 N**. Die neemt de spindel axiaal op vi
 ### ③ Verificatie in notebooks
 
 - **NB1 `orig-026` output:** "Aantal kritische zones: 0"
-- **NB1 `exam-summary` output:** cond(A) min/gem/max = 4,70 / 10,68 / 18,38
-- **NB1 output:** laagste snelheidsfactor 0,250 bij s = 1,850 m (gesloten)
+- **NB1 samenvatting:** cond(A) min/gem/max = 4,70 / 35,02 / 68,36
+- **NB1 output:** laagste snelheidsfactor 0,250 bij s = 1,875 m (gesloten)
 
 ---
 
@@ -351,7 +351,7 @@ De framebelasting wordt volledig gedomineerd door het eigen gewicht. De maximale
 
 **Wanneer wordt onbalans wél kritisch?**
 
-Alleen als we de paraplu drastisch versnellen. Inertiekrachten schalen kwadratisch met de omgekeerde openingstijd. Bij een openingstijd van 1 seconde in plaats van 16,64 seconden worden de inertiekrachten een factor **277× groter**: de onbalanskracht springt van 0,94 N naar ~260 N. Dan overstijgt de inertie de zwaartekrachtcomponent, wordt de mast dynamisch belast, en is een volledige dynamische analyse verplicht.
+Alleen als we de paraplu drastisch versnellen. Inertiekrachten schalen kwadratisch met de omgekeerde openingstijd. Bij een openingstijd van 1 seconde in plaats van 30,03 seconden worden de inertiekrachten een factor **~900× groter**: de onbalanskracht springt van 0,54 N naar ongeveer 490 N. Dan overstijgt de inertie de zwaartekrachtcomponent, wordt de mast dynamisch belast, en is een volledige dynamische analyse verplicht.
 
 ### ② Bijvragen
 
@@ -440,8 +440,8 @@ Een echte parasol heeft 6 ribben rond een centrale mast. Elke rib is een afzonde
 
 **De snelheden veranderen niet.** De schuiver beweegt volgens hetzelfde bewegingsprofiel — de snelheid en versnelling van elke individuele rib zijn identiek aan ons model. Wat wijzigt: alle krachten schalen lineair mee.
 
-- Totale aandrijfkracht: 6 × 68,85 N = **~413 N**
-- Piek motorvermogen: 6 × 29,28 W = **~176 W** → nominaal ≥ **57 W**
+- Totale aandrijfkracht: 6 × 76,06 N = **~456 N**
+- Piek motorvermogen: 6 × 38,75 W = **~233 W** → nominaal ≥ **75 W**
 - Piek motorkoppel: 6 × 0,103 Nm = **~0,62 Nm**
 
 De spindel draagt nu 413 N axiale druk. Dat is een **knikcontrole** waard: een dunne spindelas kan onder die last doorbuigen (Euler-knik). De spindeldiameter moet navenant groter gekozen worden.
@@ -460,7 +460,7 @@ De 6 ribben zijn gelijkmatig verdeeld rondom de mast (60° tussenhoek). Dit heef
 
 ### ③ Verificatie in notebooks
 
-- **NB3 `1b7be2ca` output:** basiswaarden voor N=1 (piek 68,85 N, 29,28 W, 0,1027 Nm)
+- **NB3 output:** basiswaarden voor N=1 (piek 76,06 N, 38,75 W, 4,39 Nm aan de poelie)
 - **NB2 `dyn-params-code`:** massa's per link — direct schalen met N
 
 ---
@@ -482,8 +482,8 @@ De 6 ribben zijn gelijkmatig verdeeld rondom de mast (60° tussenhoek). Dit heef
 | Zwaartekracht | 63,43 N | **63,43 N** (onveranderd) |
 | Schuiverwrijving | 6,09 N | ~12,2 N (+6,1 N) |
 | Inertie + scharnier | 3,26 N | **3,26 N** (onveranderd) |
-| **F\_s totaal** | **68,85 N** | **~75 N (+9%)** |
-| Motorvermogen piek | 29,28 W | ~32 W |
+| **F\_s totaal** | **76,06 N** | **~83 N (+9%)** |
+| Motorvermogen piek | 38,75 W | ~42 W |
 
 Wrijving is slechts 9% van de totale kracht. Verdubbelen ervan geeft slechts +9% op F\_s. De motor merkt het nauwelijks.
 
@@ -505,8 +505,8 @@ $$\Delta F_{s,\text{zwk}} \approx \Delta m \times g \times \bar{k} \approx 3\,\t
 
 | | Huidig | Na wijziging |
 |--|--------|-------------|
-| F\_s totaal | 68,85 N | **~94 N (+36%)** |
-| Motorvermogen piek | 29,28 W | ~40 W |
+| F\_s totaal | 76,06 N | **~103 N (+36%)** |
+| Motorvermogen piek | 38,75 W | ~53 W |
 | Houdkracht (open stand) | 62,67 N | **~86 N** |
 
 Dit is de meest impactvolle parameterwijziging — factor 4× groter effect dan wrijving verdubbelen. Het bewijst opnieuw dat gewicht de dominante factor is.
@@ -517,7 +517,7 @@ Dit is de meest impactvolle parameterwijziging — factor 4× groter effect dan 
 
 ---
 
-### Scenario C – Openingstijd halveren (t\_move: 16,64 → 8,32 s)
+### Scenario C – Openingstijd halveren (t\_move: 30,03 → 15,02 s)
 
 *Snellere bediening — bijv. voor automatische sluiting bij windstoot.*
 
@@ -530,10 +530,10 @@ $$F_{\text{inertie,nieuw}} = F_{\text{inertie,oud}} \times \left(\frac{t_{\text{
 | Zwaartekracht | 63,43 N | **63,43 N** (onveranderd) |
 | Inertie | 2,76 N | **~11 N** (×4) |
 | Wrijving | 6,09 N | ~6,5 N (licht ↑ door hogere v) |
-| **F\_s totaal** | **68,85 N** | **~81 N (+18%)** |
-| Max snelheid schuiver | 0,2376 m/s | ~0,475 m/s (×2) |
+| **F\_s totaal** | **76,06 N** | **~90 N (+18%)** |
+| Max snelheid schuiver | 0,2495 m/s | ~0,499 m/s (×2) |
 | Piek motortoerental | 2850,8 rpm | ~5700 rpm |
-| Piek actuatorvermogen | 29,28 W | **~117 W** (×4, want P = F×v: F×2, v×2) |
+| Piek actuatorvermogen | 38,75 W | **~155 W** (×4, want P = F×v: F×2, v×2) |
 
 Het piekVERMOGEN stijgt met een factor 4 — dit is de werkelijke beperkende factor, niet de kracht. De motor moet opnieuw gedimensioneerd worden.
 
@@ -552,7 +552,7 @@ $$T_{\text{uitgang}} = \frac{F_{\text{ontwerp}} \cdot r}{\eta} \quad;\quad n_{\t
 | Poelieradius | Koppel uitgang | Piek-uitgangstoerental | Status |
 |-------------|---------------|----------------------|--------|
 | r = 15 mm | 3,08 Nm | 151 rpm → **te snel** | niet haalbaar |
-| r = 25 mm | 7,69 Nm | 91 rpm ✓ | **gekozen** |
+| r = 25 mm | 7,69 Nm | 95 rpm ✓ | **gekozen** |
 | r = 40 mm | 12,31 Nm | 57 rpm ✓ | haalbaar maar koppel ↑ |
 | r = 60 mm | 18,46 Nm | 38 rpm ✓ | **overschrijdt koppelgrens** |
 
@@ -590,7 +590,7 @@ De verhouding $\delta \vec{r}_{cm} / \delta s$ — hoeveel het zwaartepunt stijg
 
 ① **Kinematica verandert volledig.** Alle hoeken $\theta_i(s)$, hoeksnelheden en hoekversnellingen zijn andere functies van $s$. NB1 opnieuw uitvoeren is niet optioneel.
 
-② **Conditiegetal verandert.** Het huidige maximum is cond(A) = 18,38 bij de gesloten stand. Met een langere stang kan de gesloten configuratie dichter bij een singulariteit uitkomen — het conditiegetal kan sterk stijgen. Als cond > 1000 ergens in het werkbereik opduikt, moet het condition-aware profiel de schuiver daar nog sterker vertragen of de stanglengtes worden herontworpen. Omgekeerd: een beter gekozen geometrie kan cond(A)\_max verlagen van 18,38 naar bijv. 8, waardoor de condition-aware vertraging kleiner hoeft te zijn en de openingstijd korter kan.
+② **Conditiegetal verandert.** Het huidige maximum is cond(A) = 68,36 bij de gesloten stand. Met een langere stang kan de gesloten configuratie dichter bij een singulariteit uitkomen — het conditiegetal kan sterk stijgen. Als cond > 1000 ergens in het werkbereik opduikt, moet het condition-aware profiel de schuiver daar nog sterker vertragen of de stanglengtes worden herontworpen. Omgekeerd: een beter gekozen geometrie kan cond(A)\_max verlagen, waardoor de condition-aware vertraging kleiner hoeft te zijn en de openingstijd korter kan.
 
 ③ **Begin- en eindstand verschuiven.** $s_{\text{gesloten}}$ en $s_{\text{open}}$ zijn de schuiverposities waarbij het doek volledig dicht of volledig open is — dit zijn geometrische grenzen bepaald door de stanglengtes. Na een wijziging hoeven 1,85 m en 0,75 m niet meer te kloppen. De slag verandert.
 
@@ -655,17 +655,17 @@ Reductie                   : 60:1
 Totale efficientie η        : 0,65 (riem + reductiekast)
 Veiligheidsfactor           : 2,0
 
-Mechanische piekbelasting   : 68,85 N  (berekend)
+Mechanische piekbelasting   : 76,06 N  (berekend)
 Praktische ontwerplijnkracht: 200 N    (robuustheidseis)
 Aandrijfkoppel uitgang      : 7,69 Nm  → klasse ≥ 8 Nm
 Remkoppel uitgang           : 3,13 Nm  (SF = 2 × 62,67 N × 0,025 m)
 Remkoppel motoras           : ~0,070 Nm
 
-Piek-uitgangstoerental      : ~91 rpm
-Motorpieksnelheid           : ~5400 rpm  (91 × 60)
+Piek-uitgangstoerental      : ~95 rpm
+Motorpieksnelheid           : ~5719 rpm  (95,3 × 60)
 Gemiddeld motortoerental    : ~1500 rpm
 
-Piek motor-ingangsvermogen  : ~90 W     (2,0 × 29,28 / 0,65)
+Piek motor-ingangsvermogen  : ~51,7 W   (2,0 × 16,79 / 0,65)
 Aanbevolen motorvermogen    : 135 W klasse
 Aanbevolen uitgangskoppel   : ≥ 8 Nm
 ```
@@ -683,7 +683,7 @@ Aanbevolen uitgangskoppel   : ≥ 8 Nm
 
 **Energieverbruik:**
 
-Netto mechanische energie per openingsslag (NB3): **72,96 J**
+Netto mechanische energie per openingsslag (NB3): **119,81 J**
 
 Motoringang per slag (η = 0,65): $E_{\text{motor}} = 72{,}96 / 0{,}65 \approx 112\,\text{J}$
 
@@ -712,7 +712,7 @@ $$T_{\text{motor}} = \frac{7{,}69}{60 \times 0{,}75} = 0{,}171\,\text{Nm}$$
 
 **"Waarom is het energieverbruik zo laag ondanks η = 0,65?"**
 
-> De slag duurt 16,64 s en het mechanisme weegt slechts 7,5 kg. Zelfs met 35% transmissieverliezen is de totale energie per slag minder dan één seconde stand-byverbruik van de controller. De gebruiksfrequentie (1–2 slagen per dag) maakt het energieverbruik van de aandrijving volledig irrelevant voor de exploitatiekosten.
+> De slag duurt ongeveer 30 s en het mechanisme weegt slechts 7,5 kg. Zelfs met 35% transmissieverliezen blijft de totale energie per slag zeer klein tegenover dagelijks stand-byverbruik van een controller. De gebruiksfrequentie (1–2 slagen per dag) maakt het energieverbruik van de aandrijving praktisch verwaarloosbaar voor de exploitatiekosten.
 
 ---
 

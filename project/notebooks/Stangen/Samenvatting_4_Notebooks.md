@@ -40,26 +40,26 @@
 
 | Uitkomst | Waarde |
 |----------|--------|
-| Schuiverbereik | 1,8500 m (gesloten) → **0,6000 m** (open) |
-| Slag | **1,2500 m** |
+| Schuiverbereik | 1,8750 m (gesloten) → **0,1250 m** (open) |
+| Slag | **1,7500 m** |
 | Gewenste openingstijd | 14,00 s |
-| Effectieve openingstijd | **18,82 s** (verlengd door condition-aware vertraging) |
+| Effectieve openingstijd | **30,03 s** (verlengd door condition-aware vertraging) |
 | Hold-tijd | 4,00 s |
-| Totale cyclustijd | **22,85 s** |
+| Totale cyclustijd | **34,05 s** |
 | Max schuiversnelheid | **0,2495 m/s** |
-| Max schuifersnelling | **0,0969 m/s²** |
-| Max snelheid punt K | **0,4229 m/s** bij s = 1,56 m |
-| Max versnelling punt K | **0,1854 m/s²** bij s = 1,76 m |
-| cond(A): min / gem / max | **4,70 / 6,54 / 18,38** |
-| Hoogste cond(A) bij | s = 1,8500 m (gesloten stand) |
+| Max schuifersnelling | **0,0627 m/s²** |
+| Max snelheid punt K | **0,3763 m/s** bij s = 1,57 m |
+| Max versnelling punt K | **0,1171 m/s²** bij s = 1,84 m |
+| cond(A): min / gem / max | **4,70 / 35,02 / 68,36** |
+| Hoogste cond(A) bij | s = 1,8750 m (gesloten stand) |
 | Kritische zones (cond > 1000) | **0** — geen enkel dood punt in het werkbereik |
-| Snelheidsfactor gesloten stand | **0,250** bij s = 1,85 m → 4× trager |
-| Max sluitingsfout (fsolve) | **3,631 × 10⁻¹⁰ m** — machineprecisie |
+| Snelheidsfactor gesloten stand | **0,250** bij s = 1,875 m → 4× trager |
+| Max sluitingsfout (fsolve) | **5,779 × 10⁻¹³ m** — machineprecisie |
 | Snelheidsresidu $\|A\omega - B\|$ | **8,2 × 10⁻¹⁷** |
 
 **Grafieken:** De hoeken $\theta_i(s)$ zijn gladde curven. De snelheid van K piekt in het midden van de slag. Het conditiegetal is hoogst bij de gesloten beginstand (s = 1,85 m) en daalt naarmate de paraplu opengaat.
 
-**Sleutelinzicht:** De gesloten beginstand is het gevoeligst (cond = 18,4), niet het gevaarlijkst (ver van 1000). Het condition-aware profiel vertraagt de schuiver daar preventief, waardoor de openingstijd verlengde van 14 naar 18,82 s.
+**Sleutelinzicht:** De gesloten beginstand is het gevoeligst (cond = 68,4), niet het gevaarlijkst (ver van 1000). Het condition-aware profiel vertraagt de schuiver daar preventief, waardoor de openingstijd verlengde van 14 naar 30,03 s.
 
 ---
 
@@ -146,52 +146,52 @@
 
 | Bijdrage $F_s$ | Waarde | % |
 |----------------|--------|---|
-| Zwaartekracht | **63,43 N** | **90%** |
-| Schuiverwrijving | **7,86 N** | 11% |
-| Inertie | **2,63 N** | 4% |
-| Scharnierwrijving | **0,50 N** | 0,7% |
-| **Totaal max** | **70,18 N** | — |
+| Zwaartekracht | **63,43 N** | **83%** |
+| Schuiverwrijving | **38,32 N** | 50% |
+| Inertie | **3,17 N** | 4% |
+| Scharnierwrijving | **1,80 N** | 2% |
+| **Totaal max** | **76,06 N** | — |
 
 | Andere sleutelwaarden | Waarde |
 |-----------------------|--------|
-| RMS $F_s$ tijdens beweging | **66,31 N** |
-| Piek actuatorvermogen | **30,92 W** |
-| Netto mechanische energie | **83,39 J** |
-| Arbeids-surplus $A_{max}$ | **51,22 J** |
+| RMS $F_s$ tijdens beweging | **66,98 N** |
+| Piek actuatorvermogen | **38,75 W** |
+| Netto mechanische energie | **119,81 J** |
+| Arbeids-surplus $A_{max}$ | **74,27 J** |
 | Max rem/regeneratief vermogen | **0,00 W** |
-| P_avg / P_peak / P_rms | 3,64 W / 16,49 W / 6,56 W |
-| Piek poeliekoppel uitgang (× 1,5) | **4,05 Nm** ($= 1{,}5 \times 70{,}18 \times 0{,}025 / 0{,}65$) |
-| RMS poeliekoppel uitgang (× 1,5) | **3,83 Nm** |
-| Aanbevolen nominaal motorvermogen | **≥ 9,8 W** |
-| Aanbevolen piekvermogencapaciteit | **≥ 21,4 W** |
+| P_avg / P_peak / P_rms | 3,51 W / 16,79 W / 6,44 W |
+| Piek poeliekoppel uitgang (× 1,5) | **4,39 Nm** ($= 1{,}5 \times 76{,}06 \times 0{,}025 / 0{,}65$) |
+| RMS poeliekoppel uitgang (× 1,5) | **3,85 Nm** |
+| Aanbevolen nominaal motorvermogen | **≥ 9,7 W** |
+| Aanbevolen piekvermogencapaciteit | **≥ 21,8 W** |
 | Piek poelietoerental uitgang | **~95 rpm** (motor na 60:1 reductie: ~5718 rpm → zie NB4) |
 
 **Statische houdanalyse:**
 
 | Positie | s (m) | \|F\_hold\| (N) | Wrijvingsgrens (N) |
 |---------|-------|----------------|-------------------|
-| Open | 0,600 | **62,15** | **12,63** (factor 5 te weinig) |
-| Half | 0,917 | 62,97 | 7,61 |
-| Half | 1,221 | 63,23 | 4,97 |
-| Half | 1,539 | 63,36 | 2,97 |
-| Gesloten | 1,850 | 63,43 | 0,73 |
+| Open | 0,125 | **30,75** | **63,78** |
+| Half | 0,564 | 61,97 | 13,51 |
+| Half | 1,003 | 63,07 | 6,74 |
+| Half | 1,439 | 63,33 | 3,57 |
+| Gesloten | 1,875 | 63,43 | 0,19 |
 
 **Framebelasting:**
 
 | Grootheid | Waarde |
 |-----------|--------|
 | Totaal modelgewicht | **73,57 N** |
-| Netto framekracht max | **74,20 N** |
-| Steunreactie schuiver max (norm) | **169,65 N** |
-| Steunreactie C max (norm) | **158,27 N** |
+| Netto framekracht max | **73,95 N** |
+| Steunreactie schuiver max (norm) | **797,85 N** |
+| Steunreactie C max (norm) | **798,40 N** |
 
-**Grafieken:** $F_s(t)$ loopt van ~63 N naar ~70 N — bijna constant, een kleine piek aan het begin en einde. Arbeid-energiestelling: fout < 10⁻⁸ W ✓. Energiebalans relatieve fout < 5 × 10⁻⁵.
+**Grafieken:** $F_s(t)$ loopt grotendeels rond 60-75 N, met een piek bij de hogere wrijvingsreacties. Arbeid-energiestelling: fout rond $2 \times 10^{-4}$ W.
 
 **Sleutelinzichten:**
-- Zwaartekracht domineert (90%): motor dimensioneren op gewicht, niet op snelheid
+- Zwaartekracht domineert de nuttige last; schuiverwrijving kan lokaal groot worden door de hoge zijreactie
 - Regeneratief vermogen = 0: bij openen moeten massa's omhoog, zwaartekracht werkt altijd tégen
-- Wrijving kan nooit vasthouden: 12,63 N max vs. 62,15 N nodig → aparte rem verplicht (tandriem is niet-zelfremmend)
-- Steunreacties (169 N bij schuiver, 158 N bij C) >> netto framekracht (74 N): altijd per scharnier dimensioneren
+- Wrijving is geen betrouwbaar houdcriterium: in gesloten stand is de theoretische marge bijna nul → aparte rem verplicht (tandriem is niet-zelfremmend)
+- Steunreacties (~798 N bij schuiver en C) >> netto framekracht (74 N): altijd per scharnier/geleiding dimensioneren
 
 ---
 
@@ -241,9 +241,9 @@ $$T_{rem} = \text{SF} \times |F_{hold,max}| \times r = 2{,}0 \times 63{,}43 \tim
 
 | Reductie | Motor avg rpm | Motor piek rpm | Motor koppel (Nm) | Status |
 |----------|--------------|----------------|-------------------|--------|
-| 25:1 | ~638 | ~2382 | 0,410 | haalbaar |
-| 40:1 | ~1020 | ~3812 | 0,256 | haalbaar |
-| **60:1** | **~1530** | **~5718** | **0,171** | **gekozen** (hoogste haalbare) |
+| 25:1 | ~560 | ~2383 | 0,410 | haalbaar |
+| 40:1 | ~896 | ~3813 | 0,256 | haalbaar |
+| **60:1** | **~1344** | **~5719** | **0,171** | **gekozen** (hoogste haalbare) |
 | 75:1 | — | ~7148 | — | te snel (> 6000 rpm) |
 | 100:1 | — | ~9530 | — | te snel |
 
@@ -255,7 +255,7 @@ $$T_{rem} = \text{SF} \times |F_{hold,max}| \times r = 2{,}0 \times 63{,}43 \tim
 | Reductie | **60:1** |
 | Efficiëntie $\eta$ | **0,65** |
 | Veiligheidsfactor | **2,0** |
-| Piek lijnkracht (operationeel) | **70,18 N** |
+| Piek lijnkracht (operationeel) | **76,06 N** |
 | Ontwerplijnkracht (met vloer) | **200,0 N** |
 | Ontwerp aandrijfkoppel uitgang | **7,69 Nm** → klasse ≥ 8 Nm |
 | Max remkoppel uitgang | **3,17 Nm** → klasse ≥ 3,17 Nm |
@@ -263,10 +263,10 @@ $$T_{rem} = \text{SF} \times |F_{hold,max}| \times r = 2{,}0 \times 63{,}43 \tim
 | Piek-uitgangstoerental | **~95 rpm** |
 | Gemiddeld uitgangstoerental | **~25 rpm** |
 | Geschatte motorpieksnelheid | **~5718 rpm** |
-| Piek motor-ingangsvermogen ontwerp | **95,1 W** (= 2 × 30,92 / 0,65) |
-| Aanbevolen motorvermogen klasse | **~143 W** (= max(50, 1,5 × 95,1)) |
-| Max lokale zijreactie schuiver | **~169,65 N** (uit NB3) |
-| Arbeids-surplus aandrijving | **51,22 J** |
+| Piek motor-ingangsvermogen ontwerp | **51,7 W** |
+| Aanbevolen motorvermogen klasse | **~77,5 W** |
+| Max lokale zijreactie schuiver | **~797,26 N** (uit NB3) |
+| Arbeids-surplus aandrijving | **74,27 J** |
 | Resolutie motorencoder na reductie | **~0,00064 mm/count** |
 | Dominante precisiefout | **mechanische speling ~1 mm** (encoder veel kleiner) |
 
@@ -274,30 +274,30 @@ $$T_{rem} = \text{SF} \times |F_{hold,max}| \times r = 2{,}0 \times 63{,}43 \tim
 
 | Factor $\lambda$ | Beweegtijd (s) | Piek \|$F_s$\| (N) | Piek P (W) | Pos. arbeid (J) | $A_{max}$ (J) |
 |------------------|---------------|---------------------|-----------|-----------------|---------------|
-| 0,60 (sneller) | ~11,2 | iets hoger | **~52** (×1,7) | ~83 | lager |
-| **1,00 (huidig)** | **18,70** | **70,18** | **30,92** | **83,39** | **51,22** |
-| 1,50 (trager) | ~28,1 | iets lager | **~21** (×0,67) | ~83 | hoger |
-| 2,00 (trager) | ~37,4 | nauwelijks lager | **~15** (×0,48) | ~83 | hoger |
+| 0,60 (sneller) | ~17,9 | **75,95** | **27,82** | ~119,8 | **74,03** |
+| **1,00 (huidig)** | **29,85** | **76,06** | **16,79** | **119,81** | **74,27** |
+| 1,50 (trager) | ~44,8 | **76,10** | **11,21** | ~119,8 | **74,34** |
+| 2,00 (trager) | ~59,7 | **76,11** | **8,42** | ~119,8 | **74,37** |
 
 **Houdanalyse NB4:**
 
 | Positie | s (m) | \|F\_hold\| (N) | T\_rem uitgang (Nm) | T\_rem motoras (Nm) |
 |---------|-------|----------------|---------------------|---------------------|
-| Open | 0,600 | 62,15 | 3,108 | 0,069 |
-| Halfopen | ~1,10 | ~62,97 | 3,149 | 0,070 |
-| Gesloten | 1,850 | 63,43 | 3,172 | 0,071 |
+| Open | 0,125 | 30,75 | 1,538 | 0,034 |
+| Halfopen | ~1,00 | ~63,07 | 3,153 | 0,070 |
+| Gesloten | 1,875 | 63,43 | 3,172 | 0,071 |
 
 **Grafieken:** Staafdiagram poelieradii vs. koppel/toerental — r = 25 mm is de enige die zowel ≤ 120 rpm als ≤ 12 Nm haalt. Energieschaalcurve: positieve arbeid ~constant ongeacht $\lambda$; piekvermogen daalt sterk bij trager bewegen.
 
 **Energiekost:**
-- Per slag (η = 0,65): 83,39 / 0,65 ≈ 128 J ≈ 0,0000356 kWh
-- Per jaar (200 d × 2 slagen): ≈ 0,0143 kWh ≈ **€0,004/jaar** — volledig verwaarloosbaar
+- Per slag (η = 0,65): 119,81 / 0,65 ≈ 184 J ≈ 0,000051 kWh
+- Per jaar (200 d × 2 slagen): ≈ 0,020 kWh ≈ **€0,006/jaar** — volledig verwaarloosbaar
 - Standby controller (~2 W continu) verbruikt >400× meer dan de mechanische aandrijving
 
 **Sleutelinzichten:**
 - Tandriem heeft geen zelfremmende werking → aparte rem altijd verplicht
 - Trager bewegen spaart piekvermogen (× 0,48 bij λ=2) maar niet de totale energie (zwaartekrachtarbeid ≈ constant)
-- Aanbevolen motor ~143 W is veel groter dan ~10 W mechanisch nodig: veiligheid + efficiëntieverlies domineert
+- Aanbevolen motor ~77,5 W is veel groter dan ~10 W continu mechanisch nodig: veiligheid + efficiëntieverlies domineert
 - De dominante precisiefout is mechanische speling (1 mm), niet de encoder (0,00064 mm/count)
 
 ---

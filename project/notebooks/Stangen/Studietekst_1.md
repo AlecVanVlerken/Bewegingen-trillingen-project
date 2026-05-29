@@ -79,8 +79,8 @@ link zitten.
 | $r_{8a}$ | 0.404558 | Link 8, segment a |
 | $r_{8b}$ | 0.499793 | Link 8, segment b |
 
-Het schuiverbereik loopt van $s_{\text{open}} = 0.750\,\text{m}$ (open toestand) tot
-$s_{\text{closed}} = 1.850\,\text{m}$ (gesloten toestand).
+Het schuiverbereik loopt van $s_{\text{open}} = 0.125\,\text{m}$ (open toestand) tot
+$s_{\text{closed}} = 1.875\,\text{m}$ (gesloten toestand).
 
 ### 3.2 Mobiliteitsformule (Grübler–Kutzbach)
 
