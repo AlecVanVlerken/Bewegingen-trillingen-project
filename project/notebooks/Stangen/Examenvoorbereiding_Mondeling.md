@@ -66,8 +66,6 @@
 | Precisie motorencoder (na reductie) | **~0,00064 mm/count** | NB4 precisiecel |
 | Dominante precisiefout | **mechanische speling ~1 mm** | NB4 precisiecel |
 
-> **Let op voor het mondeling:** de studietekst vermeldt verouderde waarden (bijv. schuiverwrijving ~38 N). De werkelijke waarden uit de code zijn aanzienlijk anders — gebruik **altijd** de bovenstaande tabel. NB4 vervangt de spindel door een tandriem + aparte rem; de NB3-spindelnummers zijn vervangen door de NB4-architectuur.
-
 ---
 
 ## Vraag 1 – Industrieel gebruik & ontwerpaanpassingen

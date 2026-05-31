@@ -196,6 +196,23 @@ Met een servo-aandrijving (gesloten lus, hoge bandbreedte) kan de motor zelf het
 
 Bij hoge toerentallen: als dezelfde machine 1 200 rpm draait (ω = 125,7 rad/s), wordt I = 65,9 / (0,05 × 15 800) = 0,083 kg·m² — een hanteerbare schijf van ~2 kg bij r = 0,2 m. Vliegwielen zijn inherent zinvoller op snelle machines. Op een traag, zwaar belaste machine (120 rpm, 29 kg massa) zijn ze contra-productief.
 
+**Trade-off: eenmalige investering vs. cumulatieve operationele kost**
+
+Voor een **farmaceutische of industriële machine** die miljoenen cycli draait, is de totale eigendomskost (TCO) beslissender dan de aankoopprijs alleen.
+
+| Scenario | Eenmalige investering | Operationele kostprijs (10 jaar, 2-ploegen) |
+|----------|----------------------|---------------------------------------------|
+| Inductiemotor 200 W + vliegwiel ~100 kg | €400–1 000 | Wrijvingsverliezen geleiding + lagerwisseling om de 2 jaar |
+| **Servomotor 200 W + drive (geen vliegwiel)** | €700–1 800 | Elektrisch efficiënt, geen vliegwielonderhoud |
+
+Rekenvoorbeeld: wrijvingsverliezen in de geleiding bedragen ~**15 W** gemiddeld (15% van P_gem = 110 W). Bij 2-ploegen bedrijf (16 h/dag, 250 dagen/jaar):
+- Verspild wrijvingsvermogen: 15 W × 4 000 h/jaar = **60 kWh/jaar → €18/jaar**
+- Over 20 jaar levensduur: **€360** verloren aan geleiding-wrijving alleen
+
+Voeg hierbij de vliegwiel-specifieke kosten: ~€500 voor bewerkt staal + **€200/jaar onderhoud** (lagers, fundering) × 20 jaar = **€4 500** cumulatief. De servomotor (€700–1 800 meerprijs) betaalt zichzelf terug na 2–5 jaar. Bij **continue farmaceutische productie** (24/7, ~8 700 h/jaar) verdrievoudigt de terugverdientijd verder.
+
+**Ingenieursconsequentie**: de keuze "goedkopere motor + vliegwiel" is een klassieke fout waarbij de eenmalige vaste kost wordt geoptimaliseerd terwijl de repetitieve operationele kost — die over miljoenen cycli domineert — genegeerd wordt. Op een machine met lange levensduur **primeert operationele efficiëntie altijd boven aankoopprijs**.
+
 ### ② "Wat als..."-bijvragen
 
 **"Wat als we de fluctuatiecoëfficiënt K niet 0,05 maar 0,20 kiezen?"**
@@ -223,7 +240,7 @@ Bij hoge toerentallen: als dezelfde machine 1 200 rpm draait (ω = 125,7 rad/s),
 
 Wij kozen het **5e-graads polynoom** voor alle drie de bewegingssegmenten (heffing 1, heffing 2, terugkeer). De reden is tweeledig:
 
-1. **C²-continuïteit**: De versnelling $\ddot{s}(\theta)$ is continu over de segmentgrenzen. Er treden geen schokken op in de normaalkracht op de nok. Dit is essentieel voor de levensduur van het nokoppervlak en de lagers.
+1. **C²-continuïteit**: De versnelling $\ddot{s}(\theta)$ is continu over de segmentgrenzen — er treedt geen sprong op in de normaalkracht. Fysiek vertaalt een discontinue versnelling zich in een **hamerslag op de lagers** bij elke segmentovergang: bij 120 rpm zijn dat 2 hamerslagen per seconde die **metaalvermoeiingscheuren** in het nokoppervlak initiëren na ~10⁷ cycli (≈ 2 maanden bedrijf) en **akoestische emissie** (industrieel lawaai > 85 dB op de werkvloer) veroorzaken. C²-continuïteit elimineert dit volledig.
 
 2. **Lagere Ca dan de cycloïde**: Ca = 5,77 versus 6,28 voor de cycloïde. Een lagere piekversnelling betekent een lagere inertiakracht (m·a_max = 29 × 9,89 = **287 N** voor ons 5e-gr. polynoom). Met de cycloïde zou dat 29 × (9,89 × 6,28/5,77) = **312 N** zijn — 9% meer.
 
@@ -345,6 +362,14 @@ De volger verliest contact met de nok. Ons ontwerp garandeert F_normaal ≥ **30
 
 Van alle vier de singulariteiten is **ondersnijding** de ernstigste: de nok loopt fysiek vast en kan mechanisch breken. Drukhoek en zelfblokkering degraderen geleidelijk (meer wrijving, hogere krachten), maar het mechanisme blijft werken — weliswaar slechter. Zweefgedrag veroorzaakt slijtage door herhaald contact-verlies en -herstel.
 
+#### Zweefgedrag als bewuste energiebesparende keuze
+
+De veervoorspanning van 300 N garandeert contactzekerheid, maar heeft een verborgen kostprijs: ze drukt de volger continu zijwaarts in de geleiding via de drukhoek, wat **Continue Coulomb-wrijving genereert gedurende 100% van de cyclus** — ook wanneer de nok onbelast is.
+
+In niet-kritische applicaties (retourbeweging zonder externe last) kan het een **bewuste, slimme keuze** zijn om tijdens de onbelaste retourslag contactverlies *bewust toe te laten*. Zonder contact daalt de normaalkracht naar nul → wrijvingskracht verdwijnt volledig voor ~40% van de cyclus (retour = 140° van 360°). Schatting energiebesparing: P_wrijving_retour ≈ μ × F_preload × v_gem ≈ 0,10 × 300 × 0,24 ≈ **7 W** gedurende het retour-segment. Over 10⁸ cycli in een farmaceutische machine: **~3 900 kWh** bespaard — meer dan de aankoopprijs van de motor zelf.
+
+Randvoorwaarden voor veilig bewust zweefgedrag: (1) geen externe belasting aanwezig tijdens retour, (2) schokdemper nodig bij hercontact, en (3) de hercontacthoek moet exact reproduceerbaar zijn. In **ons ontwerp** is dit niet van toepassing omdat de externe belasting ook tijdens de retour actief kan zijn — maar het principe toont de fundamentele afweging: **absolute contactzekerheid (300 N preload) vs. minimale wrijvingsenergie** over de levensduur.
+
 **Is een drukhoek van 0° het beste ontwerp?**
 
 Nee. Een drukhoek van nul betekent ds/dθ = 0 — geen beweging. Een kleine drukhoek is onvermijdelijk zodra de volger beweegt. Het ontwerp­doel is α < 30° te realiseren met de kleinste R₀ (compactheid). Ons R₀ = 50 mm is exact de grens: het maatgevende terugkeersegment vereist minimaal 46 mm, en we kiezen 50 mm voor een kleine veiligheidsmarge.
@@ -456,6 +481,16 @@ Beide wrijvingsbijdragen zijn samen ~144 N of ~6% van de piekbelasting. Wrijving
 
 In ons model nemen we de nok als star aan. In werkelijkheid heeft staal een contactstijfheid bij Hertz-contact: bij een normaalkracht van 1 800 N en een rolstraal van 15 mm geeft de Hertz-theorie een elastische deformatie van ~1–5 µm. Dit is verwaarloosbaar voor de kinematica maar relevant voor de levensduurberekening (contactspanning en vermoeiing).
 
+#### Zwaartekracht en continue wrijving: de werkelijke drivers van de veervoorspanning
+
+Puur inertiële modellen geven een **onrealistisch laag** beeld van de vereiste veervoorspanning en het motorvermogen. Voeg de twee permanente, niet-inertiële krachten toe:
+
+1. **Zwaartekracht** (dominant): F_g = 29 × 9,81 = **284 N** — constant neerwaarts, aanwezig 100% van de cyclus. Op het stilstandssegment (dwell: a = 0, F_ext = 0) reduceert de krachtenbalans tot: F_preload ≥ m·g = **284 N**. De berekende minimale veervoorspanning van **284,5 N ≈ m·g** is geen toeval — de veer compenseert in de eerste plaats de **zwaartekracht**, en pas in tweede instantie de tijdelijke inertiakrachten. Het inertiële puur-dynamisch model dat 284,5 N geeft, levert het juiste getal om de *verkeerde reden*: de echte drijvende kracht is de permanente gewichtskracht, niet de piek-inertiekracht.
+
+2. **Continue Coulomb-wrijving**: de preload van 300 N drukt de volger permanent zijwaarts in de geleiding via de drukhoek, gedurende alle bewegingsfasen. Schatting: F_wrijving_gem ≈ μ × (k·s_gem + F_preload) × sin(α_gem) ≈ 0,10 × 925 × sin(15°) ≈ **24 N**. Dit genereert tijdens de bewegingsfasen P_wrijving ≈ 24 × v_gem ≈ **5 W** — continu, iedere cyclus, ongeacht of er een extern werkstuk aanwezig is.
+
+**Praktische consequentie**: het gemiddeld motorvermogen van 110 W bevat bijdragen van externe belasting (~80%), geleiding-wrijving (~15%) en inertiëdissipatie (~5%). De inertie is de kleinste en meest wisselende post. **Zwaartekracht en wrijving bepalen structureel de ondergrens van de preload en het basismotorverbruik** — een inzicht dat het puur inertieel model volledig mist.
+
 ### ② "Wat als..."-bijvragen
 
 **"Wanneer wordt inertie dominant ten opzichte van de veerkracht?"**
@@ -472,6 +507,9 @@ In ons model nemen we de nok als star aan. In werkelijkheid heeft staal een cont
 
 **"Is de veerstijfheid k een ontwerp­vrijheidsgraad of een vaste keuze?"**
 > k is een vrije keuze. De eis is: (k·s_max + F_preload) moet groot genoeg zijn om bij de maximale negatieve normaalkrachtbijdrage (extreme versnelling) nog positief te blijven. Voor ons systeem is de minimale preload 284,5 N. Een hogere k verbeeldt de dynamische veiligheid maar verhoogt de wrijvingsverliezen. k = 25 N/mm is een ingenieurskompromis: de veer is niet te zwaar (wrijvingsverlies) maar voldoende stijf voor het draaispectrum tot 120 rpm.
+
+**"Wat als we de nok in de fabriek bouwen maar grote afwijkingen zien tussen gemeten krachten en simulatie?"**
+> Drie oorzaken verklaren de meeste afwijkingen in volgorde van waarschijnlijkheid: **(1) Speling en productietoleranties**: een geometrische fout van 10 µm in de nokcontour of 30 µm speling in de rolvolger-as veroorzaakt piekafwijkingen bij segmentovergangen die het ideale model niet kent. **(2) Encoderresolutie**: hoekmeting via een **encoder** met 1 000 pulsen/omwenteling geeft een hoekresolutie van 0,36°. Bij het 2× afleiden naar versnelling (θ → ω → a) versterkt meettechnische ruis kwadratisch — kleine hoekfouten worden grote versnellingsfouten. Een **14-bit encoder** (16 384 pulsen/omw.) reduceert dit probleem drastisch; differentiëren in het frequentiedomein of een low-pass filter is dan alsnog nodig. **(3) Kracht­validatie in de geleiding**: de zijdelingse geleiding­krachten zijn direct meetbaar met **rekstrookjes** (strain gauges) op de geleidingswangen, of indirect via een **laserafstandsmeter** die de absolute volger­positie registreert zonder integratiefout. Een **load cell** op de externe belasting geeft de absolute normaalkracht. Stelregel: als simulatie en meting meer dan ~15% afwijken, controleer eerst de encoder-kalibratie en de geleidingsspeling vóórdat het rekenmodel in twijfel getrokken wordt.
 
 ### ③ Verificatie in de notebooks
 

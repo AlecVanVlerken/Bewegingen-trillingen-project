@@ -118,8 +118,8 @@ $$\rho_{pitch} = \frac{\left[(R_0+s)^2 + (ds/d\theta)^2\right]^{3/2}}{(R_0+s)^2 
 | **Normaalkracht $F_{normaal}$** | Contactkracht loodrecht op het nokoppervlak | De kracht waarmee de nok op de rol duwt |
 | **Veervoorspanning $F_{preload}$** | Initiële veerrekking vóór beweging | Zorgt voor minimale contactkracht ook bij stilstand |
 | **Zweefgedrag** | $F_{normaal} \leq 0$: volger verliest contact | Gevaarlijk: slijtage door herhaald hercontact |
-| **Zelfblokkering** | $\mu \cdot |\tan\alpha| \geq 1$: noemer = 0 | Volger kan niet meer bewegen — mechanisme blokkeert |
-| **Wrijvingsfactor** | $1/(1 - \mu|\tan\alpha|\cdot\text{sgn}(\dot{s}))$ | Vergroot de normaalkracht door geleiding-wrijving |
+| **Zelfblokkering** | $\mu \cdot |\tan\alpha| \geq 1$; de noemer in de krachtvergelijking wordt nul (oneindige kracht) | Volger kan niet meer bewegen — mechanisme blokkeert |
+| **Wrijvingsfactor** | $1/(1 - \mu|\tan\alpha|\cdot\text{sgn}(\dot{s}))$ | Vergroot de normaalkracht door geleiding-wrijving; fysiek: deze factor corrigeert de normaalkracht zodat de extra kracht door wrijving in de geleiding wordt meegenomen, waardoor de nok meer kracht moet leveren als de drukhoek of wrijving toeneemt. |
 | **Externe belasting** | Opgelegde kracht op de volger door het werkstuk | Hier: 0→1250 N stijgend, dan constant, dan −480 N |
 | **Eigenfrequentie $\omega_n$** | $\sqrt{k/m}$ — resonantiefrequentie veer-massa | Systeem moet sub-resonant draaien ($\omega < \omega_n$) |
 | **Relatieve demping $\zeta$** | Fractie van kritische demping | $\zeta = 0,094$: licht gedempt, resonantie mogelijk bij doorloop |
@@ -136,7 +136,7 @@ Na wrijvingscorrectie:
 $$F_{normaal,gecorr} = F_{normaal} \cdot \frac{1}{1 - \mu|\tan\alpha|\cdot\text{sgn}(\dot{s})}$$
 
 **Vliegwielformule:**
-$$I_{vliegwiel} = \frac{\Delta E}{K \cdot \omega^2} = \frac{65{,}9}{0{,}05 \times (4\pi)^2} = 8{,}35\,\text{kg·m}^2$$
+$$I_{vliegwiel} = \frac{\Delta E}{K \cdot \omega^2} = \frac{65{,}9}{0{,}05 \times (4\pi)^2} = 8{,}35 \; \text{kg} \cdot \text{m}^2$$
 
 **Eigenfrequentie:**
 $$\omega_n = \sqrt{k/m} = \sqrt{25\,000/29} = 29{,}4\,\text{rad/s} = 4{,}67\,\text{Hz}$$
@@ -209,7 +209,7 @@ $$\omega_n = \sqrt{k/m} = \sqrt{25\,000/29} = 29{,}4\,\text{rad/s} = 4{,}67\,\te
 
 **Sleutelinzichten:**
 - De **preload van 300 N** is exact de minimale waarde — de volger zit op de drempel van zweefgedrag. Verhoog de preload voor elke toerental-stijging
-- Het **vliegwiel van 8,35 kg·m²** is enorm (stalen schijf r=0,3m → ~185 kg). Reden: bij 120 rpm is $\omega$ klein → $E_{kin} = \frac{1}{2}I\omega^2$ klein → grote I nodig voor zelfde energiebuffer. Moderne oplossing: servomotor zonder vliegwiel
+- **Vliegwiel is niet gebouwd** — de berekening ($I = 8{,}35$ kg·m²) dient om aan te tonen dat een klassiek vliegwiel bij 120 rpm onpraktisch is (~185 kg stalen schijf). De conclusie van het ontwerp is: **servomotor** (condensatoren bufferen de piekenergie elektrisch, geen mechanisch vliegwiel nodig)
 - De **2e harmonisch** (4 Hz) ligt dicht bij $\omega_n$ (4,67 Hz) met $r_2 = 0,86$ → versterkingsfactor ~3,3. Kritisch bij het opstarten: het systeem passeert door resonantie
 
 ---
