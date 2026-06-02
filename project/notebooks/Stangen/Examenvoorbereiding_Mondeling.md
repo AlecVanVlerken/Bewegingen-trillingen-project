@@ -1,3 +1,5 @@
+> **Actuele versie:** gebruik voor de volledige en consistente verdediging van de Stangen-analyse nu `Antwoorden_Mondeling_Stangen.md`. Dit bestand bevat oudere notities en kan nog verouderde cijfers of vroegere ontwerpkeuzes bevatten.
+
 # Examenvoorbereiding Mondeling – Paraplu-stangenmechanisme
 
 > **Gebaseerd op de actuele code-outputs van Notebook 1, Notebook 2, Notebook 3 en Notebook 4.**
