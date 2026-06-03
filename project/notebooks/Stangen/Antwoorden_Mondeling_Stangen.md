@@ -36,8 +36,11 @@ Belangrijk praktisch punt: de riem draagt alleen de verticale aandrijfkracht. De
 | Grootheid | Waarde |
 |---|---:|
 | Max lokale schuiverreactie `A_x` | `5.28 kN` per mechanisme |
+| Ontwerpbelasting schuivergeleiding, SF `2.0` | `10.56 kN` per mechanisme |
+| Ontwerpbelasting per rol/glijblok, 4 dragende punten | `2.64 kN` |
 | Max indicatief mastmoment `|A_x| s` | `660 Nm` |
 | Verhouding `max |A_x| / max |F_s|` met trekveren | `16.1` |
+| Mastquick-check | `100x100x5 mm` staal, benutting `0.073` |
 | Indicatieve beugelkracht bij `1 m` beugelafstand | `662 N` per steunpunt |
 
 Dit is een van de belangrijkste beperkingen van het ontwerp. De motor kan de verticale aandrijfkracht leveren, maar de schuivergeleiding, mast en muur-/framebevestiging moeten de grote dwarsreacties dragen.
@@ -93,6 +96,9 @@ Trager bewegen verlaagt piekvermogen en schokken, maar niet de zwaartekrachtarbe
 
 **Krachtgeneratie.**  
 Voor meer kracht kan je een kleinere poelie, grotere reductie, sterkere motor of bredere riem kiezen. Een kleinere poelie verlaagt het nodige koppel, maar vraagt meer toerental en buigt de riem sterker. In de huidige voorkeurscase wordt gekozen voor een ontwerplijnkracht van `1309.93 N` totaal en een ontwerp-uitgangskoppel van `40.31 Nm`.
+
+**Concrete motorclass.**  
+Notebook 4 vertaalt dit nu naar een motorcategorie. Voor de voorkeurscase met trekveren volstaat de klasse `500 W BLDC/servo + rem` in de quick-check, met marges ongeveer `1.03` op vermogen, `1.24` op uitgangskoppel en `1.53` op remkoppel. Zonder trekveren schuift de analyse naar een `750 W servo + rem` klasse. Dit blijft een datasheetklasse, geen definitieve productselectie.
 
 **Beperkingen.**  
 Notebook 4 dimensioneert de aandrijving op orde van grootte. Een echte componentkeuze vraagt cataloguscontrole: riemtandbelasting, poeliediameter, lagerlasten, remtype, IP-bescherming, corrosie en controllerkeuze.
@@ -197,10 +203,10 @@ Voor het enkelvoudige mechanisme is `max |F_s|` inertie-only ongeveer `3.17 N`, 
 Wrijving verhoogt de aandrijfkracht en dissipatie, en ze wisselt van teken tussen openen en sluiten. Daarom is de open/sluit-analyse belangrijk. Wrijving mag niet gebruikt worden als betrouwbare vergrendeling, want slijtage, vuil en smering veranderen haar sterk.
 
 **Stijfheid.**  
-Stijfheid zit niet als elastisch element in de Newton-Euler-stelsels; de stangen worden daar star gemodelleerd. Toch is stijfheid praktisch cruciaal: voorbalkdoorbuiging, mastmoment, schuiverkanteling, riemrek en astorsie bepalen of de beweging precies en betrouwbaar blijft. De voorbalkcontrole geeft `wind uplift` als maatgevend met benutting `0.79`. De gemeenschappelijke ascontrole kiest in Notebook 4 een massieve stalen as van `35 mm`, met ongeveer `1.19 deg` verdraaiing en `4.79 MPa` torsiespanning in de trekveercase.
+Stijfheid zit niet als elastisch element in de Newton-Euler-stelsels; de stangen worden daar star gemodelleerd. Toch is stijfheid praktisch cruciaal: voorbalkdoorbuiging, mastmoment, schuiverkanteling, riemrek en astorsie bepalen of de beweging precies en betrouwbaar blijft. De voorbalkcontrole geeft `wind uplift` als maatgevend met benutting `0.79`. De mastquick-check kiest `100x100x5 mm` staal met benutting `0.073` op het indicatieve krachtkoppel. De gemeenschappelijke ascontrole kiest in Notebook 4 een holle stalen as `tube_40x5`, met ongeveer `1.02 deg` verdraaiing en `4.69 MPa` torsiespanning in de trekveercase.
 
 **Beperking.**  
-Er is nog geen volledig elastisch meerlichamenmodel. Voor uitvoering moeten mastprofiel, geleiderollen, lagerkrachten, riemrek en bevestigingen apart gedimensioneerd worden.
+Er is nog geen volledig elastisch meerlichamenmodel. De mast, geleiderollen, lagerkrachten, riemrek en bevestigingen zijn nu als eerste orde gecontroleerd, maar voor uitvoering moeten bouten, lassen, fundering, toleranties en vermoeiing nog apart gedimensioneerd worden.
 
 ## Vraag 9 - Wat verandert als verschillende kopies parallel door dezelfde motor worden aangedreven?
 
@@ -220,11 +226,12 @@ In de voorkeurscase met trekveren rekent Notebook 4:
 |---|---:|
 | Ontwerplijnkracht totaal | `1309.93 N` |
 | Ontwerp-uitgangskoppel | `40.31 Nm` |
-| Aanbevolen motorvermogen | `487 W` klasse |
+| Aanbevolen motorvermogen | `487 W` vereist, dus `500 W` klasse |
 | Aanbevolen remkoppel | `16.29 Nm` |
-| Gekozen asdiameter in controle | `35 mm` massief staal |
-| Verdraaiing as | `1.19 deg` over 6 m |
-| Torsiespanning as | `4.79 MPa` |
+| Gekozen asoptie in controle | `tube_40x5` staal |
+| Verdraaiing as | `1.02 deg` over 6 m |
+| Torsiespanning as | `4.69 MPa` |
+| Geschatte lokale pulley-lagerlast | `1.31 kN` |
 
 **Belangrijk onderscheid.**  
 De gemeenschappelijke as en riem leveren de verticale aandrijfkracht. Ze lossen de lokale horizontale schuiverreactie niet op. Elke schuiver/collar moet nog altijd ongeveer `5.28 kN` dwarsreactie kunnen opnemen.
@@ -269,7 +276,7 @@ Voor de voorkeurscase is de orde van grootte:
 | Riem/as/poelies/lagers | `250-700 euro` |
 | Totaal aandrijfhardware | `600-1600 euro` |
 
-Dit is een richtprijs, geen exacte offerte. De uiteindelijke kost hangt af van IP-bescherming, remtype, reductiekast, lagers, riemtype, montage, controller en veiligheidsvoorzieningen.
+De gekozen klasse in Notebook 4 is `500 W BLDC/servo + rem` voor de trekveercase. Zonder trekveren wordt eerder `750 W servo + rem` maatgevend. Dit is een richtprijs, geen exacte offerte. De uiteindelijke kost hangt af van IP-bescherming, remtype, reductiekast, lagers, riemtype, montage, controller en veiligheidsvoorzieningen.
 
 **Energieverbruik.**  
 Notebook 4 geeft voor de voorkeurscase ongeveer `1114 J` elektrisch-equivalent per open+sluitcyclus. Bij `1` cyclus per dag en `220` dagen per jaar is dat ongeveer `0.068 kWh/jaar`. Met `0.35 euro/kWh` is de bewegingsenergie ongeveer `0.02 euro/jaar`.
@@ -281,8 +288,8 @@ De energiekost van de beweging is dus verwaarloosbaar tegenover componentkost, m
 1. De stangen worden star gemodelleerd. Elastische vervorming van stangen, schuiver, mast en riem zit niet volledig in het dynamisch model.
 2. De voorbalkcontrole is eerste orde en Eurocode-geinspireerd, maar geen gecertificeerde bouwkundige berekening.
 3. Windvlagen, asymmetrische wind, regenwaterophoping, doekspanning en doekflapperen zijn beperkt gemodelleerd.
-4. De schuivergeleiding en mast zijn nog niet als echte profielen met lagers/rollen doorgerekend, terwijl ze ongeveer `5.28 kN` lokale dwarsreactie moeten dragen.
-5. De gemeenschappelijke ascontrole is een orde-groottecontrole. Detailontwerp van lagers, koppelingen en riemschijven blijft nodig.
+4. De schuivergeleiding en mast zijn nu eerste-orde gecontroleerd, maar nog niet als volledig product met bouten, lassen, rollen, toleranties en vermoeiing uitgewerkt.
+5. De gemeenschappelijke ascontrole bevat nu holle/massieve asopties en lagerlastorde, maar detailontwerp van lagers, koppelingen en riemschijven blijft nodig.
 6. Kosten zijn richtwaarden. Voor een definitieve motorselectie moeten actuele catalogusprijzen en datasheets gecontroleerd worden.
 
 ## Korte eindconclusie
