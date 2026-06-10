@@ -1,4 +1,4 @@
-> **Actuele versie:** gebruik voor de volledige en consistente verdediging van de Stangen-analyse nu `Antwoorden_Mondeling_Stangen.md`. Dit bestand bevat oudere notities en kan nog verouderde cijfers of vroegere ontwerpkeuzes bevatten.
+> **Actuele versie:** gebruik voor de volledige en consistente verdediging van de Stangen-analyse nu `Antwoorden_Mondeling_Stangen.md` en `Bijvragen_Mondeling_Stangen.md`. Dit bestand bevat oudere notities en kan nog verouderde cijfers of vroegere ontwerpkeuzes bevatten. De finale hoofdcase gebruikt nu `s_open = 0.600 m`, dus niet meer de bijna horizontale oude open stand `s_open = 0.125 m`.
 
 # Examenvoorbereiding Mondeling – Paraplu-stangenmechanisme
 
@@ -53,10 +53,10 @@
 | Aanbevolen nominaal motorvermogen | **≥ 9,7 W** | NB3 output |
 | Aanbevolen piek motorvermogen | **≥ 21,8 W** | NB3 output |
 | **— NB4: aandrijfarchitectuur —** | | |
-| Aandrijftype | Tandriem/kabel + 24 V DC/BLDC motor + rem | NB4 samenvatting |
+| Aandrijftype | Tandriem/kabel + 48 V BLDC/servo motor + rem | NB4 samenvatting |
 | Gekozen poelieradius | **25 mm** | NB4 auto-select |
-| Gekozen reductie | **60:1** | NB4 auto-select |
-| Totale aandrijfefficientie $\eta$ | **0,65** (riem + reductiekast) | NB4 parameters |
+| Gekozen reductie | **25:1** | NB4 auto-select |
+| Totale aandrijfefficientie $\eta$ | **0,78** (riem + reductiekast) | NB4 parameters |
 | Mechanische piekbelasting (berekend) | **76,06 N** | NB4 via NB3 |
 | Praktische ontwerplijnkracht (vloer) | **200 N** (robuustheidseis) | NB4 parameters |
 | Ontwerp aandrijfkoppel uitgang | **7,69 Nm** → klasse ≥ 8 Nm | NB4 samenvatting |
@@ -406,7 +406,7 @@ NB4 kiest bewust voor een **aparte rem** aan de reductoruitgang, niet voor een z
 
 Het benodigde remkoppel aan de reductoruitgang: $T_{\text{rem}} = 2{,}0 \times 62{,}67\,\text{N} \times 0{,}025\,\text{m} = \mathbf{3{,}13\,\text{Nm}}$
 
-Omgerekend naar de motoras (reductie 60:1, η = 0,75): $T_{\text{rem,motor}} \approx 0{,}070\,\text{Nm}$ — uitstekend haalbaar.
+Omgerekend naar de motoras (reductie 25:1, η = 0,75): $T_{\text{rem,motor}} \approx 0{,}070\,\text{Nm}$ — uitstekend haalbaar.
 
 De rem vergrendelt ook bij **tussenstanden**: een paraplu halfopen laten (voor gedeeltelijke schaduw) is volledig ondersteund, want de rem houdt élke schuiverpositie vast.
 
@@ -636,11 +636,11 @@ Voor massa, wrijving of spoed kun je de richting en orde van grootte voorspellen
 
 **Gekozen aandrijfarchitectuur (NB4):**
 
-NB4 kiest een **24 V DC/BLDC reductiemotor met encoder en rem**, die een gesloten tandriem/kabel langs de mast aandrijft. De taakverdeling is strict:
+NB4 kiest een **48 V BLDC/servo reductiemotor met encoder en rem**, die een gesloten tandriem/kabel langs de mast aandrijft. De taakverdeling is strict:
 
 | Component | Taak |
 |-----------|------|
-| Motor + reductiekast 60:1 | Verticale aandrijfkracht, positionering |
+| Motor + reductiekast 25:1 | Verticale aandrijfkracht, positionering |
 | Tandriem/kabel + poelie 25 mm | Overbrenging lijnkracht langs mast |
 | Rem aan reductoruitgang | Vasthouden in open, gesloten en tussenstand |
 | Schuivergeleiding + mast | Zijreacties en kantelmomenten (≠ riem!) |
@@ -649,9 +649,9 @@ NB4 kiest een **24 V DC/BLDC reductiemotor met encoder en rem**, die een geslote
 **Motor-specificaties (NB4-berekening):**
 
 ```
-Aandrijfarchitectuur       : tandriem/kabel, 24 V DC/BLDC
+Aandrijfarchitectuur       : tandriem/kabel, 48 V BLDC/servo
 Poelieradius               : 25 mm
-Reductie                   : 60:1
+Reductie                   : 25:1
 Totale efficientie η        : 0,65 (riem + reductiekast)
 Veiligheidsfactor           : 2,0
 
@@ -661,7 +661,7 @@ Aandrijfkoppel uitgang      : 7,69 Nm  → klasse ≥ 8 Nm
 Remkoppel uitgang           : 3,13 Nm  (SF = 2 × 62,67 N × 0,025 m)
 Remkoppel motoras           : ~0,070 Nm
 
-Piek-uitgangstoerental      : ~95 rpm
+Piek-uitgangstoerental      : ~75 rpm
 Motorpieksnelheid           : ~5719 rpm  (95,3 × 60)
 Gemiddeld motortoerental    : ~1500 rpm
 
@@ -674,11 +674,11 @@ Aanbevolen uitgangskoppel   : ≥ 8 Nm
 
 | Component | Prijs |
 |-----------|-------|
-| 24 V BLDC motor met encoder (bijv. Maxon EC-i 40) | €120–250 |
-| Reductiekast 60:1 (planetair) | €60–150 |
+| 48 V BLDC motor met encoder (bijv. Maxon EC-i 40) | €120–250 |
+| Reductiekast 25:1 (planetair) | €60–150 |
 | Tandriem + poelie 25 mm + spanklem | €20–50 |
 | Elektromagnetische rem aan uitgang | €30–80 |
-| Controller/driver (24 V, ~6 A piek) | €50–150 |
+| Controller/driver (48 V, ~5 A piek) | €50–150 |
 | **Totaal voor één paraplu** | **€280–680** |
 
 **Energieverbruik:**
@@ -703,8 +703,8 @@ Het stand-byverbruik van de controller (~2 W continu) overstijgt het mechanische
 
 $$T_{\text{uitgang}} = \frac{F_{\text{ontwerp}} \cdot r}{\eta} = \frac{200 \times 0{,}025}{0{,}65} = 7{,}69\,\text{Nm}$$
 
-Omgerekend naar motoras (reductie 60:1, η\_kast = 0,75):
-$$T_{\text{motor}} = \frac{7{,}69}{60 \times 0{,}75} = 0{,}171\,\text{Nm}$$
+Omgerekend naar motoras (reductie 25:1, η\_kast = 0,75):
+$$T_{\text{motor}} = \frac{7{,}69}{25 \times 0{,}85} = 0{,}171\,\text{Nm}$$
 
 **"Waarom is de ontwerplijnkracht 200 N terwijl de berekende waarde maar 69 N is?"**
 

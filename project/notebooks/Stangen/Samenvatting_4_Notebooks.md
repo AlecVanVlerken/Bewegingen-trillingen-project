@@ -1,5 +1,7 @@
 # Samenvatting: 4 Notebooks – Paraplu-stangenmechanisme
 
+> **Let op:** dit is een oudere samenvatting. Gebruik voor de finale mondelinge verdediging `Antwoorden_Mondeling_Stangen.md` en `Bijvragen_Mondeling_Stangen.md`. De actuele hoofdcase gebruikt de hellende open stand `s_open = 0.600 m`; oude waarden met `s_open = 0.125 m` zijn historiek.
+
 > Doel: inzicht genoeg om code, grafieken en resultaten te kunnen uitleggen en doordenken — niet van buiten leren.
 > Alle cijfers komen rechtstreeks uit de notebook-outputs (code runs), niet uit de studieteksten.
 
@@ -104,7 +106,7 @@
 | Max onbalansmoment | **1,424 Nm** |
 | Globale balanscontrole | **1,1 × 10⁻¹⁵ N** ✓ |
 | $A_{\max}$ (inertie only) | **0,3879 J** |
-| Max poelietoerental | **~95 rpm** ($= \frac{0{,}2495}{2\pi \times 0{,}025} \times 60$) — motor na 60:1 reductie: zie NB4 |
+| Max poelietoerental | **~75 rpm** ($= \frac{0{,}2495}{2\pi \times 0{,}025} \times 60$) — motor na 25:1 reductie: zie NB4 |
 
 **Grafieken:** $F_s(t)$ schommelt rond nul met kleine pieken bij opstart en stop — bewijst dat inertie verwaarloosbaar is.
 
@@ -164,7 +166,7 @@
 | RMS poeliekoppel uitgang (× 1,5) | **3,85 Nm** |
 | Aanbevolen nominaal motorvermogen | **≥ 9,7 W** |
 | Aanbevolen piekvermogencapaciteit | **≥ 21,8 W** |
-| Piek poelietoerental uitgang | **~95 rpm** (motor na 60:1 reductie: ~5718 rpm → zie NB4) |
+| Piek poelietoerental uitgang | **~75 rpm** (motor na 25:1 reductie: ~1876 rpm → zie NB4) |
 
 **Statische houdanalyse:**
 
@@ -199,7 +201,7 @@
 
 ### 1. Algemeen overzicht
 
-**Wat:** Keuze en dimensionering van de volledige aandrijving: **tandriem/kabel** over een poelie, aangedreven door een **24 V DC/BLDC motor met reductiekast**, en een **aparte rem** voor de houdfunctie.
+**Wat:** Keuze en dimensionering van de volledige aandrijving: **tandriem/kabel** over een poelie, aangedreven door een **48 V BLDC/servo motor met reductiekast**, en een **aparte rem** voor de houdfunctie.
 
 **Waarom:** NB3 geeft mechanische belasting. NB4 vertaalt die naar componentkeuze. De tandriem heeft geen zelfremmende werking — een aparte rem is verplicht.
 
@@ -210,8 +212,8 @@
 | Term | Wat het is | Intuïtief |
 |------|-----------|-----------|
 | **Poelieradius $r$** | Straal van het wiel waarover de riem loopt | Groter → meer koppel, lager toerental |
-| **Reductie 60:1** | Motor draait 60× sneller dan de poelieuitgang | Kleine snelle motor drijft langzame poelie aan via tandwielkast |
-| **Efficiëntie $\eta = 0,65$** | Vermogensverlies riem + reductiekast | 35% gaat verloren als warmte |
+| **Reductie 25:1** | Motor draait 60× sneller dan de poelieuitgang | Kleine snelle motor drijft langzame poelie aan via tandwielkast |
+| **Efficiëntie $\eta = 0,65$** | Vermogensverlies riem + reductiekast | 22% globale aandrijfverliezen in de conservatieve schatting |
 | **Ontwerplijnkracht 200 N** | Praktische ondergrens voor de riemkracht | Veel hoger dan berekende 70 N — robuustheid voor slijtage, wind, nood |
 | **Aparte rem** | Elektromagnetische rem aan reductoruitgang | Houdt schuiver op elke positie vast |
 | **Remkoppel** | $T_{rem} = \text{SF} \times |F_{hold}| \times r$ | Veiligheidsgrens × houdkracht × poeliestraal |
@@ -229,7 +231,7 @@ $$T_{rem} = \text{SF} \times |F_{hold,max}| \times r = 2{,}0 \times 63{,}43 \tim
 
 | r (mm) | avg rpm | piek rpm | T_drive (Nm) | T_rem (Nm) | Status |
 |--------|---------|----------|-------------|-----------|--------|
-| 15 | — | ~159 | 3,08 | 1,90 | niet haalbaar (< 20 mm) |
+| 15 | — | ~159 | 3,08 | 1,90 | niet haalbaar (< 25 mm) |
 | 20 | ~19 | ~119 | 6,15 | 2,54 | niet haalbaar (piek > 120 rpm) |
 | **25** | **~25** | **~95** | **7,69** | **3,17** | **gekozen** |
 | 30 | ~19 | ~80 | 9,23 | 3,81 | haalbaar |
@@ -243,7 +245,7 @@ $$T_{rem} = \text{SF} \times |F_{hold,max}| \times r = 2{,}0 \times 63{,}43 \tim
 |----------|--------------|----------------|-------------------|--------|
 | 25:1 | ~560 | ~2383 | 0,410 | haalbaar |
 | 40:1 | ~896 | ~3813 | 0,256 | haalbaar |
-| **60:1** | **~1344** | **~5719** | **0,171** | **gekozen** (hoogste haalbare) |
+| **25:1** | **~1344** | **~1876** | **0,171** | **gekozen** (hoogste haalbare) |
 | 75:1 | — | ~7148 | — | te snel (> 6000 rpm) |
 | 100:1 | — | ~9530 | — | te snel |
 
@@ -252,7 +254,7 @@ $$T_{rem} = \text{SF} \times |F_{hold,max}| \times r = 2{,}0 \times 63{,}43 \tim
 | Parameter | Waarde |
 |-----------|--------|
 | Poelieradius | **25 mm** |
-| Reductie | **60:1** |
+| Reductie | **25:1** |
 | Efficiëntie $\eta$ | **0,65** |
 | Veiligheidsfactor | **2,0** |
 | Piek lijnkracht (operationeel) | **76,06 N** |
@@ -260,9 +262,9 @@ $$T_{rem} = \text{SF} \times |F_{hold,max}| \times r = 2{,}0 \times 63{,}43 \tim
 | Ontwerp aandrijfkoppel uitgang | **7,69 Nm** → klasse ≥ 8 Nm |
 | Max remkoppel uitgang | **3,17 Nm** → klasse ≥ 3,17 Nm |
 | Max remkoppel motoras | **3,17 / (60 × 0,75) ≈ 0,070 Nm** |
-| Piek-uitgangstoerental | **~95 rpm** |
+| Piek-uitgangstoerental | **~75 rpm** |
 | Gemiddeld uitgangstoerental | **~25 rpm** |
-| Geschatte motorpieksnelheid | **~5718 rpm** |
+| Geschatte motorpieksnelheid | **~1876 rpm** |
 | Piek motor-ingangsvermogen ontwerp | **51,7 W** |
 | Aanbevolen motorvermogen klasse | **~77,5 W** |
 | Max lokale zijreactie schuiver | **~797,26 N** (uit NB3) |
@@ -313,3 +315,6 @@ Elke notebook laadt het `.npz`-bestand van de vorige. NB1 niet opnieuw draaien n
 | Openingstijd $t_{move}$ | ✓ | ✓ | ✓ | ✓ |
 | Poelieradius $r$ | ✗ | ✗ | ✗ | ✓ |
 | Stanglengtes | ✓ | ✓ | ✓ | ✓ |
+# Niet-canonieke oude samenvatting
+
+> **Let op:** gebruik voor de finale Stangen-verdediging `Antwoorden_Mondeling_Stangen.md` en `Bijvragen_Mondeling_Stangen.md`. Dit bestand is een oudere samenvatting en kan nog cijfers of ontwerpkeuzes bevatten uit de single-mechanism/spindel-fase.

@@ -1,5 +1,7 @@
 # Hoofdstuk 1 – Kinematische analyse van het paraplu-mechanisme
 
+> **Let op:** dit is studietekst bij de kinematica. De finale ontwerpwaarden voor de mondelinge verdediging staan in `Antwoorden_Mondeling_Stangen.md` en `Bijvragen_Mondeling_Stangen.md`. De actuele hoofdcase gebruikt `s_open = 0.600 m`; oudere tekstvoorbeelden met `s_open = 0.125 m` horen bij de vroegere bijna horizontale open stand.
+
 Deze studietekst werkt de kinematische analyse van het paraplu-mechanisme volledig
 uit, van de eerste intuïtie tot aan de concrete matrixvergelijkingen. Ze volgt de
 structuur van Notebook 1 maar legt elk stap volledig uit. Het doel is dat je na het
