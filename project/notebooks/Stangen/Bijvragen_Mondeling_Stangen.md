@@ -12,15 +12,30 @@ de numerieke bron. De belangrijkste actuele case is:
 | Toepassing | brede zonwerende overdekking |
 | Breedte | `6.0 m` |
 | Aantal mechanismen | `2` |
-| Uitval | `2.34 m` |
-| Schuivertraject openen | `s = 1.875 m` naar `s = 0.125 m` |
-| Beweegtijd | ongeveer `30 s` |
+| Uitval | `2.22 m` |
+| Helling open stand | ongeveer `15.3 deg` naar beneden |
+| Schuivertraject openen | `s = 1.875 m` naar `s = 0.600 m` |
+| Beweegtijd | ongeveer `20.00 s` |
 | Voorkeurscase | overdekking met trekveren |
-| Piek `|F_s|` met trekveren | `327.48 N` per mechanisme |
-| Ontwerplijnkracht totaal | `1309.93 N` |
-| Ontwerp-uitgangskoppel | `40.31 Nm` |
-| Motorclass | `500 W BLDC/servo + rem` |
-| Bewegingsenergie open+sluit | ongeveer `1114 J` |
+| Piek `|F_s|` met trekveren | `199.47 N` per mechanisme |
+| Ontwerplijnkracht totaal | `797.91 N` |
+| Ontwerp-uitgangskoppel | `21.68 Nm` |
+| Motorclass | `500 W 48V BLDC + rem + gearbox` |
+| Bewegingsenergie open+sluit | ongeveer `476.5 J` |
+
+Extra referentiecijfers voor doorvragen:
+
+| Grootheid | Waarde |
+|---|---:|
+| Max schuiversnelheid / versnelling | `0.1965 m/s` / `0.0511 m/s^2` |
+| Max `cond(A)` | `68.36` bij gesloten stand |
+| Zonder trekveren: max `|F_s|` openen/sluiten | `372.24 N` / `309.24 N` per mechanisme |
+| Met trekveren: max `|F_s|` openen/sluiten | `199.47 N` / `115.16 N` per mechanisme |
+| Trekveerkracht open/gesloten | `172.74 N` / `198.24 N` per mechanisme |
+| Extra veerenergie gesloten-open | `236.50 J` per mechanisme |
+| Vereist remkoppel uitgang | `11.57 Nm` |
+| Gemeenschappelijke as | `tube_40x5`, `0.55 deg`, `2.52 MPa` |
+| Positieve arbeid tijdschaalstudie | ongeveer `371.68 J`, bijna onafhankelijk van snelheid |
 
 ## Vraag 1 - Industrieel gebruik en ontwerpaanpassing
 
@@ -63,6 +78,25 @@ balk sterk toeneemt met de overspanning. Je moet dan:
 Het basismodel in Notebook 1 verandert niet noodzakelijk. De massa- en
 belastingparameters in `Notebook 3 - Overdekking` en Notebook 4 veranderen wel.
 
+### Moet het mechanisme helemaal open gaan?
+
+Niet noodzakelijk voor elk product. Een kleinere openingsslag kan zinvol zijn
+als de krachten, doorbuiging of gevoeligheid in de eindstand te groot worden. Dan
+kies je een grotere waarde voor `s_open`, waardoor de overdekking minder ver
+uitklapt.
+
+In een eerdere versie hielden we de bijna horizontale oude open stand aan:
+`s = 1.875 m` naar `s = 0.125 m`. Dat gaf de grootste uitval, maar de lokale
+horizontale schuiverreactie werd ongeveer `5.28 kN` per mechanisme. Voor de
+finale hoofdcase kiezen we daarom `s_open = 0.600 m`. De kap blijft ongeveer
+`15 deg` afhellen en de dwarsreactie zakt naar ongeveer `1.04 kN` per
+mechanisme. Dat is veel beter te verdedigen voor mast, collar en muurbeugels.
+
+Als een prof vraagt of we dit kunnen optimaliseren, is het antwoord: ja, via een
+parameterstudie in Notebook 1. Daarna moeten Notebook 2, 3, `Notebook 3 -
+Overdekking` en Notebook 4 opnieuw gedraaid worden, want alle dynamica en
+motorkeuze volgen uit de gewijzigde kinematica.
+
 ### Waar zit de motor praktisch?
 
 De motor staat best bovenaan of achteraan aan de mast/framezijde, niet op het
@@ -82,13 +116,33 @@ De grote horizontale steunreacties op de schuiver worden niet door de riem
 gedragen. Die gaan via de schuiver/collar, geleiderollen of glijblokken naar de
 mast. Daarom is de mast en schuivergeleiding constructief kritischer dan de riem
 alleen. In de voorkeurscase is de verhouding tussen maximale dwarsreactie en
-aandrijfkracht ongeveer `16.1`.
+aandrijfkracht ongeveer `5.22`.
+
+### Hoe zorgen we dat de constructie niet omvalt?
+
+De overdekking mag niet bekeken worden als een losse paal met bovenaan een
+luifel. De mast moet momentvast aan een gebouw, zwaar frame of fundering zitten.
+Praktisch doe je dat met twee stevige muurbeugels op verticale afstand, of met
+een mastvoet/frame dat een buigend moment kan opnemen.
+
+De notebook geeft hiervoor de orde van grootte:
+
+- maximale lokale dwarsreactie op de schuiver: ongeveer `1.04 kN` per mechanisme;
+- ontwerpbelasting schuivergeleiding met veiligheidsfactor `2.0`: ongeveer `2.08 kN`;
+- met vier dragende rollen/glijblokken: ongeveer `0.52 kN` per punt;
+- indicatief mastmoment `|A_x| s`: ongeveer `625 Nm`;
+- bij `1 m` verticale beugelafstand: ongeveer `627 N` per steunpunt.
+
+Dat is geen volledige ankerberekening, maar het toont wel dat de aangepaste
+hellende open stand veel realistischer is dan de vroegere bijna horizontale stand.
+Bij uitvoering moeten bouten, muurkwaliteit, lasnaden, corrosie en vermoeiing
+apart gecontroleerd worden.
 
 ### Wat gebeurt er bij windbelasting?
 
 Wind werkt vooral op het doekvlak en op de voorbalk. In de notebook is dit als
 eerste-orde structurele controle opgenomen. De maatgevende loadcase is `wind
-uplift`, met maximale benutting ongeveer `0.79`. Dat betekent dat het ontwerp
+uplift`, met maximale benutting ongeveer `0.75`. Dat betekent dat het ontwerp
 binnen de aannames acceptabel is, maar het is geen gecertificeerde bouwkundige
 berekening.
 
@@ -140,7 +194,7 @@ vooral door:
 - trekveren of gasveren te gebruiken als gedeeltelijke compensatie;
 - onnodige stand-by-verliezen in de elektronica te vermijden.
 
-Voor de huidige voorkeurscase is de bewegingsenergie ongeveer `1114 J` per
+Voor de huidige voorkeurscase is de bewegingsenergie ongeveer `476.5 J` per
 open+sluitcyclus. De energiekost zelf is dus verwaarloosbaar tegenover de
 componentkost.
 
@@ -158,15 +212,92 @@ Meer kracht kan door:
 De trade-off is dat meer reductie meestal lagere snelheid geeft, en een kleinere
 poelie de riem sterker buigt en hogere motorsnelheid vraagt.
 
+### Waarom kiezen we een poelieradius van 25 mm?
+
+`25 mm` is een compromis. Een kleinere poelie verlaagt het benodigde koppel,
+maar verhoogt het toerental en buigt de riem sterker, wat ongunstig is voor
+levensduur en tandbelasting. Een grotere poelie verlaagt het toerental en is
+vriendelijker voor de riem, maar vraagt meer koppel en dus een zwaardere
+reductor/rem.
+
+Notebook 4 controleert dit automatisch. Voor de huidige case blijft `25 mm`
+haalbaar: de geschatte motorpieksnelheid is ongeveer `1876 rpm`, dus onder de
+bruikbare `2000 rpm` ontwerpgrens.
+
+### Waarom 48 V en niet 24 V?
+
+Bij hetzelfde vermogen vraagt `24 V` ongeveer dubbel zoveel stroom als `48 V`.
+Voor een `500 W` klasse betekent dat dikkere kabels, grotere verliezen en een
+zwaardere controller. `48 V` blijft nog laagspanning, maar is praktischer voor
+een 500 W BLDC/servo met rem en reductor.
+
+`24 V` zou technisch kunnen voor een kleiner of lichter systeem, maar voor de
+6 m-overdekking met twee mechanismen is `48 V` de nettere keuze.
+
+### Kan het systeem halfopen blijven staan?
+
+Ja, maar niet door alleen op motorstroom of wrijving te rekenen. Notebook 4
+dimensioneert expliciet een rem/houdfunctie. Voor de voorkeurscase is het
+vereiste remkoppel aan de uitgang ongeveer `11.57 Nm`; de gekozen klasse heeft
+`20 Nm` remkoppel. Daardoor kan de schuiver ook in tussenstanden blijven staan.
+
+Fysisch gebeurt dat met een elektromagnetische rem op motor/reductor of met een
+mechanische vergrendeling. Bij stroomuitval moet de rem fail-safe sluiten, zodat
+de overdekking niet ongecontroleerd beweegt.
+
+### Hoe houdt het systeem statisch een willekeurige stand vast?
+
+De motorregeling alleen is daarvoor niet de veilige oplossing. Een servo kan wel
+positie houden door stroom te sturen, maar bij stroomuitval of controllerfout
+valt die actieve houdkracht weg. Daarom wordt een fail-safe rem of mechanische
+vergrendeling voorzien op de motor/reductor of op de aandrijfas.
+
+De rem moet de statische houdlast in de slechtste stand aankunnen. Notebook 4
+geeft daarvoor ongeveer `11.57 Nm` vereist remkoppel aan de uitgang. De gekozen
+motor-/reductorklasse gebruikt `20 Nm` remcapaciteit, dus er is ongeveer `1.73`
+marge. In de praktijk is dat een veerbekrachtigde elektromagnetische rem: zonder
+spanning blokkeert ze, met spanning wordt ze gelost om te bewegen.
+
+### Kan de motor de gekozen bewegingswet volgen?
+
+Ja, in principe wel. Notebook 1 levert een referentiebaan `s(t)`, `ds(t)` en
+`dds(t)`. Notebook 4 vertaalt dat naar poelietoerental, motortoerental, koppel en
+vermogen. Voor de finale case blijft de geschatte motorpieksnelheid ongeveer
+`1876 rpm`, onder de gekozen bruikbare grens van `2000 rpm`, en het aanbevolen
+vermogen is `219 W` terwijl de motorklasse `500 W` is.
+
+In de regelaar gebruik je dan een positieprofiel:
+
+- encoder meet motoras of, beter, schuiverpositie;
+- controller volgt de gewenste `s(t)`;
+- snelheids- en acceleratielimieten komen uit Notebook 1;
+- eindschakelaars/homing definiëren open en gesloten stand;
+- de rem wordt gelost tijdens beweging en grijpt aan in stilstand.
+
+De notebook bewijst dus niet de volledige regelaar, maar wel dat de gewenste
+beweging qua snelheid, koppel en vermogen binnen de gekozen motorclass ligt.
+
 ### Waarom tandriem/kabel en geen ketting of lange spindel?
 
 Een lange spindel of lineaire actuator legt de schuiverpositie heel direct op,
-maar wordt bij een slag van ongeveer `1.75 m` groot, zichtbaar en moeilijker te
+maar wordt bij een slag van ongeveer `1.28 m` nog altijd groot, zichtbaar en moeilijker te
 integreren. Een ketting is sterk, maar zwaarder, luider en vraagt onderhoud.
 
 Een tandriem of kabel langs de mast is lichter, stiller en makkelijker weg te
 werken. Voor een brede overdekking is dat praktischer. De voorwaarde is wel dat
 de schuivergeleiding de dwarsreacties opneemt.
+
+### Hoe werkt de riemtakbeugel fysisch?
+
+De tandriem is een gesloten lus rond een boven- en onderpoelie. Een van de twee
+verticale riemtakken wordt met een klembeugel aan de schuiver/collar bevestigd.
+Als de poelie draait, beweegt die riemtak omhoog of omlaag en trekt ze de
+schuiver mee. De andere riemtak is de vrije retourtak.
+
+De klembeugel draagt dus de verticale aandrijfkracht `F_s`. Ze draagt niet de
+horizontale reactie `A_x`; die gaat via de rollen/glijblokken naar mast en
+frame. Daarom moet de beugel op riemkracht worden ontworpen, maar de collar en
+geleiding op de grotere dwarsreactie.
 
 ## Vraag 3 - Vliegwiel en energiebuffering
 
@@ -203,7 +334,8 @@ elektrische buffer of veerassistentie.
 Een veer werkt direct tegen de zwaartekrachtlast van het mechanisme. Ze helpt
 vooral bij openen, waar de motor het zwaarst belast wordt. In de huidige case
 verlaagt trekveerassistentie de aanbevolen motorvermogensklasse van ongeveer
-`745 W` naar ongeveer `487 W`.
+`593 W` berekende piek naar ongeveer `219 W`; de gekozen motorclass wordt
+`500 W 48V BLDC + rem + gearbox`.
 
 Een veer past dus beter bij een trage positioneerbeweging dan een vliegwiel.
 
@@ -213,6 +345,32 @@ Nee. Bij openen geeft de veer energie terug, maar bij sluiten moet de veer
 opnieuw opgespannen worden. De winst zit in het spreiden van belasting en het
 verlagen van de openingspiek. De motor en rem blijven nodig om de beweging te
 controleren en tussenstanden vast te houden.
+
+In de finale overdekking helpt de zwaartekracht bij sluiten. Daardoor wordt
+sluiten niet maatgevend voor de motor: de veer wordt opnieuw opgeladen terwijl
+de aandrijving vooral gecontroleerd remt en de snelheid begrenst. Dat is gunstig,
+maar het betekent niet dat de veer energie gratis maakt.
+
+### Zijn de gekozen trekveren praktisch realistisch?
+
+Ja als eerste ontwerp, met een belangrijke nuance. Het model gebruikt twee
+directe lineaire trekveren langs de mast, met ongeveer `0.010 N/mm` per veer.
+Dat is een lage veerstijfheid, passend bij een lange slanke trekveer over een
+grote schuiverslag. Een compacte stijve veer zou over `1.275 m` slag veel te
+veel krachtverandering geven.
+
+De open kracht is ongeveer `172.74 N` totaal per mechanisme en de gesloten kracht
+ongeveer `198.24 N`, dus ongeveer `86-99 N` per veer. Dat is praktisch haalbaar,
+maar de echte veerkeuze moet later via catalogus gebeuren: vrije lengte,
+maximale rek, vermoeiing, corrosie en bevestigingsogen moeten kloppen.
+
+### Waarom geen gasveer?
+
+Een gasveer is compacter en kan professioneel ogen, maar ze is minder transparant
+voor de analyse. De kracht hangt af van slag, temperatuur, wrijving en
+montagehoek. Voor een eerste verdedigbaar model is een gewone trekveer beter:
+lineaire veerwet, duidelijke energieopslag en eenvoudig te vergelijken met de
+baseline zonder veer.
 
 ## Vraag 4 - Keuze van bewegingstraject
 
@@ -256,10 +414,13 @@ niet heel sterk. Het piekvermogen verandert wel duidelijk.
 
 ### Hoe kies je de opentijd?
 
-Voor een grote terrasoverdekking is `25-30 s` verdedigbaar. Het voelt rustig,
-vermijdt schokken, geeft de gebruiker tijd om te stoppen, en houdt inertie klein.
-Sneller kan technisch, maar dan stijgen piekvermogen, trillingsrisico en
-veiligheidseisen.
+Voor de huidige hellende eindstand is ongeveer `20 s` verdedigbaar. Het voelt
+rustig, vermijdt schokken, geeft de gebruiker tijd om te stoppen, en houdt
+inertie klein. Sneller kan technisch, maar dan stijgen piekvermogen,
+trillingsrisico en veiligheidseisen. Veel trager kan ook, maar verlaagt vooral
+het piekvermogen; de maatgevende krachten, houdkracht en mastreacties blijven
+bijna gelijk omdat die vooral door zwaartekracht, wrijving en geometrie bepaald
+worden.
 
 ## Vraag 5 - Frequentie-inhoud
 
@@ -276,9 +437,9 @@ traject.
 ### Wat betekent de dominante frequentie?
 
 De dominante frequentie is de belangrijkste herhalende component in de kracht of
-versnelling. Voor de overdekking met trekveren ligt die rond `0.029 Hz`. Dat is
+versnelling. Voor de overdekking met trekveren ligt die rond `0.0416 Hz`. Dat is
 zeer laag. De geschatte eerste buigfrequentie van de voorbalk is ongeveer
-`15.58 Hz`. De marge is dus groot.
+`15.60 Hz`. De marge is dus groot, ongeveer `375x`.
 
 ### Welke frequentie wil je vermijden?
 
@@ -390,7 +551,7 @@ verticale aandrijfkrachten leveren.
 
 Bij het trage traject domineert zwaartekracht, gevolgd door schuiverwrijving en
 constructieve reacties. Inertie is klein. Dat is logisch: versnellingen zijn
-klein omdat de beweging ongeveer `30 s` duurt.
+klein omdat de beweging ongeveer `20 s` duurt en het traject glad start en stopt.
 
 ### Waarom is inertie zo klein?
 
@@ -474,6 +635,15 @@ aantrekkelijk: ze koppelt beide zijden mechanisch.
 
 Bij twee aparte motoren zou je elektronische synchronisatie nodig hebben.
 
+### Kan een gemeenschappelijke as toch asynchroniteit geven?
+
+Een gemeenschappelijke as maakt de beweging mechanisch gekoppeld, maar niet
+perfect oneindig stijf. Door torsie, speling in koppelingen en riemrek kan er
+een kleine hoek- of positiefout ontstaan. Daarom controleert Notebook 4 de
+astorsie. Voor de gekozen `tube_40x5` is de verdraaiing ongeveer `0.55 deg` over
+6 m. Dat is klein genoeg als eerste ontwerp, maar lagersteunen, koppelingen en
+riemspanning moeten in een echt product nog gedetailleerd worden.
+
 ### Waarom een gemeenschappelijke as?
 
 Omdat ze beide mechanismen mechanisch gelijk laat lopen. Dat is eenvoudiger en
@@ -491,6 +661,13 @@ wringen. Je hebt dan encoders, synchronisatieregeling en beveiliging nodig.
 Globaal kunnen symmetrische horizontale reacties deels wegvallen in het gebouw of
 frame. Lokaal verdwijnen ze niet. Elke schuiver en mast moet zijn eigen
 dwarsreactie opnemen.
+
+### Synchroniseert de voorbalk zelf de twee mechanismen?
+
+Nee. De voorbalk verbindt de K-punten en houdt het doek op spanning, maar ze mag
+niet als synchronisatiemechanisme gebruikt worden. Als een kant achterloopt,
+gaat de voorbalk wringen. De synchronisatie moet via de aandrijving komen:
+gemeenschappelijke as, gelijke poelies, gelijke riemspanning en goede homing.
 
 ## Vraag 10 - Parameter veranderen
 
@@ -579,6 +756,23 @@ Als de voorbalk, doekmassa of puntmassa K groter wordt:
 Dit is een zeer verdedigbare parameterstudie omdat ze direct past bij een
 overdekking: breder doek of zwaardere voorbalk betekent grotere belasting.
 
+### Verandert de kinematica als de massa groter wordt?
+
+Nee, zolang we hetzelfde opgelegde traject gebruiken. Notebook 1 is puur
+kinematisch: posities, snelheden en versnellingen hangen af van geometrie en
+`s(t)`, niet van massa. Als de massa groter wordt, blijven baan, snelheid en
+versnelling gelijk, maar de krachten, vermogens, reacties en motorselectie in
+Notebook 2, 3 en 4 veranderen wel.
+
+### Waarom ligt zoveel massa in punt K?
+
+Voor de overdekking is `payload_mass_K_equivalent` conservatief gekozen. De
+voorbalkmassa en doekmassa worden verdeeld over de K-punten, ook al wordt een
+deel van het doek in werkelijkheid door andere stangen of doekspanning gedragen.
+Dat is gunstig voor de verdediging: de motor- en structuurcontrole rekent niet
+te optimistisch. Als men later lichter wil ontwerpen, kan `fabric_mass_to_K_fraction`
+worden verlaagd en moet de keten opnieuw gerund worden.
+
 ### Case E - Aantal mechanismen veranderen
 
 Als je van twee naar drie mechanismen gaat:
@@ -611,10 +805,17 @@ moet helpen, niet het systeem overnemen.
 
 ### Hoeveel kost de motor?
 
-Voor de voorkeurscase is de gekozen klasse `500 W BLDC/servo + rem`. De
-richtprijs voor motor, reductor, rem en drive ligt in de orde `350-900 euro`.
+Voor de voorkeurscase is de gekozen klasse `500 W 48V BLDC + rem + gearbox`. De
+concrete referentie voor motor, reductor, rem en drive ligt op ongeveer `1359-1699 euro`.
 Met riem, as, poelies en lagers wordt de totale aandrijfhardware geschat op
-`600-1600 euro`.
+`1759-2699 euro`.
+
+De constructie buiten de motor wordt in Notebook 4 apart geraamd op ongeveer
+`5272-10239 euro`. Daarin zitten voorbalk, doek, masten/steunen, stangen,
+schuivers/geleiding, gemeenschappelijke as, riemen, poelies, lagers, trekveren,
+beugels, ankers en corrosiebescherming. Motor plus constructie samen komt dan
+op ongeveer `6631-11938 euro`, zonder montage-uren, keuring of definitieve
+bouwkundige verankering.
 
 Dit is geen definitieve offerte. Voor een echte keuze moeten datasheets,
 beschermingsgraad, remtype, duty cycle, lagerlasten en riemtype gecontroleerd
@@ -622,9 +823,9 @@ worden.
 
 ### Hoeveel kost het energieverbruik?
 
-De bewegingsenergie is zeer klein. Notebook 4 geeft ongeveer `1114 J` per
+De bewegingsenergie is zeer klein. Notebook 4 geeft ongeveer `476.5 J` per
 open+sluitcyclus. Bij een beperkt aantal cycli per jaar komt dat op ongeveer
-`0.068 kWh/jaar`, of ongeveer `0.024 euro/jaar` bij de ingestelde prijs.
+`0.029 kWh/jaar`, of ongeveer `0.010 euro/jaar` bij de ingestelde prijs.
 
 De energiekost van de beweging is dus verwaarloosbaar. Stand-by-verbruik,
 controller, onderhoud en componentkost zijn veel belangrijker.
