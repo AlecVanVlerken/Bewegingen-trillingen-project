@@ -24,8 +24,8 @@ De uiteindelijke toepassing is een brede zonwerende overdekking, niet meer allee
 
 De voorkeursvariant is de overdekking met trekveren. De veer verandert de baan niet, maar verlaagt de motorlast voor hetzelfde traject:
 
-| Case | Max `|F_s|` openen | Max `|F_s|` sluiten | Ontwerplijnkracht totaal | Aanbevolen motorvermogen |
-|---|---:|---:|---:|---:|
+| Case | Max &#124;F_s&#124; openen | Max &#124;F_s&#124; sluiten | Ontwerplijnkracht totaal | Aanbevolen motorvermogen |
+|---|---|---|---|---|
 | Zonder trekveren | `381.95 N` per mechanisme | `313.46 N` per mechanisme | `1527.80 N` | `745 W` klasse |
 | Met trekveren | `327.48 N` per mechanisme | `217.03 N` per mechanisme | `1309.93 N` | `487 W` klasse |
 
