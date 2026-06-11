@@ -320,6 +320,23 @@ In onze finale overdekking worden de twee mechanismen al **parallel** aangedreve
 - Drie i.p.v. twee mechanismen: ontwerplijnkracht/-koppel naar ongeveer `~1197 N` / `~32.5 Nm`.
 - Een te slank gekozen as laat verdraaiing en torsiespanning stijgen — bij te grote verdraaiing lopen de twee schuivers niet meer synchroon en trekt het doekvlak scheef.
 
+**Eén mechanisme (lokaal) vs. twee mechanismen (huidig, via gemeenschappelijke as):**
+
+| Grootheid | Eén mechanisme (één kant) | Twee mechanismen (huidig) | Verhouding |
+|---|---:|---:|---:|
+| Piek &#124;F_s&#124; openen / sluiten | `199.48 N` / `115.12 N` | `398.95 N` / `230.24 N` | `2.00x` |
+| Ontwerplijnkracht (SF `2.0`) | `398.95 N` | `797.91 N` | `2.00x` |
+| Koppel op lokale poelie / askoppel | `10.84 Nm` | `21.68 Nm` | `2.00x` |
+| Piekvermogen aan schuiver | `28.53 W` | `57.06 W` | `2.00x` |
+| Vereist motorvermogen (praktisch) | `~109.7 W` | `219.46 W` | `2.00x` |
+| Vereist remkoppel | `~5.78 Nm` | `11.57 Nm` | `2.00x` |
+| Gekozen motorklasse | `500 W` (enige klasse met genoeg rem) | `500 W` | onveranderd |
+| Marges vermogen / koppel / rem | `~4.56` / `~4.61` / `~3.46` | `2.28` / `2.31` / `1.73` | gehalveerd |
+| Gemeenschappelijke as | niet nodig | `tube_40x5`, `0.55 deg` / `2.52 MPa` over `6 m` | nieuw |
+| Aantal motoren | `1` | `1` | onveranderd |
+
+Bijna alles (kracht, koppel, vermogen, remkoppel) verdubbelt **exact** (`2.00x`) bij de overgang van één naar twee mechanismen, omdat beide mechanismen identiek en gesynchroniseerd zijn en geen enkele praktische ondergrens (vloerwaarde voor lijnkracht/koppel/vermogen/rem) bindend is in beide gevallen — het is dus een zuivere verdubbeling van de fysica, geen artefact van de notebook-instellingen. Wat **niet** verandert, is de gekozen motorklasse: zelfs voor één mechanisme zou je al in de `500 W`-klasse vallen, want de `250 W`-klasse heeft geen rem en valt daarmee sowieso af. Twee mechanismen via één gemeenschappelijke as betekenen dus niet "een grotere motor nodig", maar wel dat dezelfde `500 W`-motor met ongeveer de **helft van de marge** wordt benut (`2.28`/`2.31`/`1.73` i.p.v. `~4.56`/`~4.61`/`~3.46`) — en dat er één gemeenschappelijke as bijkomt voor de synchronisatie.
+
 ### Wat als...
 
 - **Eén motor per mechanisme i.p.v. gemeenschappelijke as?** Lokaal eenvoudiger, geen torsiestijve as nodig, maar elektronische synchronisatie vereist — bij een synchronisatiefout wringt het doek/de voorbalk.
@@ -344,36 +361,29 @@ In onze finale overdekking worden de twee mechanismen al **parallel** aangedreve
 
 **Direct antwoord:**
 
-Het duidelijkste voorbeeld is de **tijdschaal** van het bewegingstraject: we voorspellen dat de zwaartekrachtarbeid — en dus de positieve arbeid — niet verandert met de snelheid van de beweging, omdat de massa sowieso dezelfde hoogte moet overwinnen, terwijl het **piekvermogen** wél sterk verandert omdat vermogen gelijk is aan kracht maal snelheid. De numerieke analyse in Notebook 4 bevestigt dit: bij een tijdschaal van `0.60×` (sneller) is het piekvermogen `92.82 W`, bij `1.00×` (huidig) `57.06 W`, en bij `1.50×` (trager) `38.32 W` — terwijl de positieve arbeid in alle gevallen `371.68 J` blijft en de piekkracht nagenoeg constant rond `~398 N` blijft. Een tweede voorbeeld is het **toevoegen van trekveren**: we voorspellen een lagere openingskracht, maar een sluitbeweging die de veer opnieuw moet opspannen; de berekening toont dat de ontwerplijnkracht daalt van `1488.96 N` naar `797.91 N` en de motorpiek van `593 W` naar `219 W`, terwijl sluiten niet maatgevend wordt omdat de zwaartekracht de schuiver dan helpt en de veer terugspant.
+De aanpak is steeds dezelfde drie stappen: **(1)** een parameter wijzigen, **(2)** op basis van fysisch inzicht voorspellen wat er met krachten/vermogen/conditionering gebeurt, en **(3)** dat numeriek bevestigen met een specifieke grafiek. De tabel hieronder geeft vijf representatieve voorbeelden, telkens met wat **verandert**, wat **(ongeveer) constant blijft**, en een korte verklaring + verwijzing naar de notebook.
 
-**Ter ondersteuning:**
+| Parameter die je wijzigt | Wat verandert | Wat blijft (ongeveer) constant | Korte uitleg |
+|---|---|---|---|
+| **Tijdschaal / snelheid**<br>(`0.60×` sneller / `1.50×` trager) | • Piekvermogen: `92.82 W` → `57.06 W` → `38.32 W`<br>• Beweegtijd: `11.91 s` → `19.85 s` → `29.78 s` | • Positieve arbeid: exact `371.68 J`<br>• Piekkracht: `~398 N` | `P = F·v` — kracht en arbeid hangen af van massa/hoogte/wrijving, niet van snelheid; enkel het vermogen schaalt mee. → *Notebook 4*, tijdschaal-sweep herrunnen. |
+| **Alle staaflengtes ×2**<br>(systeem opschalen) | • Massa: `×8` (`~L³`)<br>• `F_s`, koppel, vermogen: `×8` à `×16` (`199.47 N → ~1600 N`, `219 W → ~3.5 kW`)<br>• Motor (`500 W`) en as (`tube_40x5`) ver onderdimensioneerd | • Vorm en piekwaarde van `cond(A)`-curve (`68.36`) — kinematica is dimensieloos | Hoeken/snelheidsverhoudingen schalen niet mee met grootte, maar massa (`~L³`) en dus krachten/koppel/vermogen wel sterk. → *Notebook 1*, alle staaflengtes ×2 → volledige keten herrunnen (NB1→NB2→NB3-Overdekking(/Trekveren)→NB4). |
+| **Slag / open stand `s_open`**<br>(`0.600 m → 0.125 m`) | • Uitval neemt toe<br>• Lokale schuiverreactie `A_x`: `~1.04 kN → ~5.28 kN` (`~5×`) | • Massa's en stanglengtes | Dieper uitschuiven geeft een ongunstiger hefboom dicht bij de gesloten stand — geleiding (ontworpen op `2.08 kN`) en mast (benutting `0.070`) zijn hier niet op voorzien. → *Notebook 1*, `s_open = 0.600 → 0.125` → herrun t.e.m. NB3-Overdekking (en NB4). |
+| **Trekveren weglaten** | • `F_s` open per mechanisme: `199.47 N → 372.24 N`<br>• Ontwerplijnkracht: `797.91 N → 1488.96 N` (bijna `×2`)<br>• Motorklasse: `500 W → 750 W` | • Kinematica en massa's — NB1-NB3 hoeven niet herrunnen | De veer compenseerde een deel van de zwaartekracht bij openen — zonder veer draagt de motor die last alleen. → *Notebook 4*, `load_case = "overdekking_trekveren" → "overdekking"`. |
+| **Aantal mechanismen**<br>(`3` i.p.v. `2`) | • Voorbalkbenutting daalt onder `0.75`, minder doorbuiging<br>• Ontwerplijnkracht/-koppel stijgen naar `~3/2×` | • `cond(A)`-curve en kinematica per mechanisme | Extra steunpunt verlicht de voorbalk, maar de aandrijving moet de som van `3` i.p.v. `2` mechanismen leveren. → *Notebook 3 - Overdekking*, `mechanism_count_total = 2 → 3` → herrun NB3-Overdekking(/Trekveren) → NB4. |
 
-| Tijdschaal | Beweegtijd | Piek `|F_s|` totaal | Piekvermogen totaal | Positieve arbeid |
+**Detail bij parameter 1 (tijdschaal) — exacte cijfers:**
+
+| Tijdschaal | Beweegtijd | Piek \|F_s\| totaal | Piekvermogen totaal | Positieve arbeid |
 |---:|---:|---:|---:|---:|
 | `0.60` sneller | `11.91 s` | `397.86 N` | `92.82 W` | `371.68 J` |
 | `1.00` huidig | `19.85 s` | `398.95 N` | `57.06 W` | `371.68 J` |
 | `1.50` trager | `29.78 s` | `399.32 N` | `38.32 W` | `371.68 J` |
 
-- Voorbalkprofiel `200x100x5` is het minimaal verdedigbare profiel (lichter → benutting/doorbuiging te hoog, zie Vraag 8).
-- `s_open` van `0.125 m` naar `0.600 m`: lokale schuiverreactie daalt van `~5.28 kN` naar `~1.04 kN` per mechanisme — ten koste van de uitval (`~2.22 m`).
-- Geometrische schaling `×2` (alle staaflengtes): de `cond(A)`-curve blijft identiek van vorm (dimensieloos), maar de massa schaalt `×8`; omdat het mechanisme zwaartekracht-gedomineerd is, schaalt `F_s` mee `×8` (`199.47 N → ~1600 N`), het koppel `×16` (`~350 Nm`) en het vermogen `×16` (`219 W → ~3.5 kW`) — de motorklasse zou van `500 W` naar enkele `kW` moeten.
-
 ### Wat als...
 
-- **Twee parameters tegelijk wijzigen (bv. trekveren + `s_open`-beperking)?** Effecten zijn niet simpelweg optelbaar omdat `F_s` en de transmissieverhoudingen positie-afhankelijk zijn — de volledige keten (Notebook 1 → 2/3/Overdekking → 4) moet opnieuw gerund worden.
+- **Twee parameters tegelijk wijzigen (bv. trekveren + `s_open`-beperking)?** Effecten zijn niet simpelweg optelbaar omdat `F_s` en de transmissieverhoudingen positie-afhankelijk zijn — de volledige keten (NB1 → NB2/NB3/Overdekking → NB4) moet opnieuw gerund worden.
 - **Enkel Notebook 4 herrunnen na een geometriewijziging, zonder Notebook 1?** Dan gebruik je een verouderde kinematica/`cond(A)`-curve — inconsistent met de nieuwe geometrie.
 - **Niet alle staaflengtes gelijk `×2` (bv. enkel één staaf)?** De geometrische gelijkvormigheid verdwijnt: de hoeken- en `cond(A)`-curve veranderen van vorm, en de eenvoudige schalingsregels hierboven gelden niet meer — terug naar Notebook 1.
-
-### Grafieken om te tonen
-
-| Parameterwijziging | Grafiek | Waarom tonen |
-|---|---|---|
-| Tijdschaal sneller/trager | Grafiek: Piekkracht/piekvermogen/arbeid bij verschillende tijdschalen — *Notebook 4* | Duidelijkste voorbeeld: piekvermogen verandert sterk, arbeid bijna niet. |
-| Trekveren aan/uit | Grafiek: Veerwet, aandrijfkracht open/sluit en houdkracht — *Notebook 3 - Overdekking* | Toont een ontwerpwijziging die de motorlast verlaagt. |
-| Open stand beperken | `cond(A)` vs. s — *Notebook 1*; Mast- en schuiverbelasting — *Notebook 3 - Overdekking* | Toont waarom `s_open = 0.600 m` beter is dan de oude bijna-horizontale stand. |
-| Voorbalkprofiel wijzigen | Grafiek: Massa-opbouw (profielvergelijking) — *Notebook 3 - Overdekking* | Toont de massa/stijfheid-trade-off. |
-| Aantal mechanismen wijzigen | Grafiek: Massa-opbouw (effect van breedte) — *Notebook 3 - Overdekking*; Ontwerplijnkracht/-koppel — *Notebook 4* | Toont hoe motorbelasting, balkdoorbuiging en synchronisatie veranderen. |
-| Staaflengtes `×2` | `cond(A)` vs. s (curve identiek van vorm) — *Notebook 1*; Motorclass versus ontwerpvereiste (nieuwe motorklasse) — *Notebook 4* | Toont dat kinematica dimensieloos is, maar de motorklasse `~16×` zwaarder wordt. |
 
 ---
 
@@ -392,12 +402,33 @@ De aandrijfhardware — motor, reductor, rem, riem, as, poelies en lagers — ko
 | Component | Richtprijs |
 |---|---:|
 | Motor + reductor + rem/drive | `1359-1699 euro` |
-| Riem/as/poelies/lagers | `250-700 euro` |
+| Riem/as/poelies/lagers | `400-1000 euro` |
 | **Totaal aandrijfhardware** | **`1759-2699 euro`** |
 | Constructie buiten motor | `5272-10239 euro` |
 | **Motor + constructie samen** | **`6631-11938 euro`** |
 
 Dit is een materiaal-/componentraming, geen aannemersofferte — werkuren, keuring, detailengineering, transport en bouwkundige verankering kunnen dit nog verhogen.
+
+**Korte verantwoording per post (orde van grootte, geen offerte):**
+
+| Onderdeel | Richtprijs | Waarom deze waarde? |
+|---|---:|---|
+| Motor-kit (48V `500 W` BLDC+rem+`25:1`+encoder) | `1359-1699 euro` | Catalogusprijs (`~$1390`) omgerekend, marge tot `1699` voor invoer/btw; klasse volgt uit marges `2.28/2.31/1.73`. |
+| Riem/as/poelies/lagers (aandrijflijn) | `400-1000 euro` | Generieke onderdelen voor de gemeenschappelijke as + `2` lokale riemlussen. |
+| Voorbalk alu `200x100x5` | `850-1000 euro` | `6 m` profiel, gedimensioneerd op benutting `0.75` (maatgevend: wind uplift). |
+| Zonweringsdoek | `533-933 euro` | `13.32 m²` overdekkingsoppervlak × `40-70 euro/m²`. |
+| Masten/steunen/voetplaten | `350-650 euro` | `2` masten + verankering, vast richtbudget. |
+| Stangen, scharnieren, K-beslag | `600-1200 euro` | `2` mechanismen × `300-600 euro`/mechanisme. |
+| Schuiver/collar + geleiding | `600-1300 euro` | `2` mechanismen × `300-650 euro`; geleiding ontworpen op `2.08 kN` (SF `2.0`). |
+| Gemeenschappelijke aandrijfas | `250-450 euro` | `tube_40x5` over `6 m` + lagerblokken/koppelingen (`0.55°`, `2.52 MPa`). |
+| Riemen/poelies/lagers/spanners (constructie) | `400-900 euro` | Lokale riemlussen + spanners per mechanisme. |
+| Trekveren + bevestiging | `160-400 euro` | `2×2` trekveren (`236.50 J`/mechanisme) + ankers — enkel in trekveren-case. |
+| Beugels, ankers, bouten | `350-900 euro` | Bevestiging mast-gevel/fundering, vast richtbudget. |
+| Corrosiebescherming + klein materiaal | `300-800 euro` | Coating/verzinking + kleinmateriaal voor buitengebruik. |
+| **Subtotaal componenten** | **`4393-8533 euro`** | Som van bovenstaande. |
+| **+ `20%` fabricagemarge** | **`5272-10239 euro`** | Montage-uren, verspilling, onvoorzien (`fabrication_margin_fraction`). |
+
+Elke regel is een vast richtbudget of een eenvoudige `aantal × eenheidsprijs`-berekening — geen leveranciersofferte. Als de prof doorvraagt op één post: verwijs naar de schaal (`per mechanisme`, `per m²`, `per m as`) en naar de `20%`-marge als vangnet voor wat niet apart begroot is.
 
 ### Wat als...
 

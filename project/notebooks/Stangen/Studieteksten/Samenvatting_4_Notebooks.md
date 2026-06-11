@@ -71,8 +71,8 @@ $$\text{cond}(A) = \|A\|\cdot\|A^{-1}\| \quad\text{— maat voor gevoeligheid na
 | Max schuiversnelheid | $\dot s_{max}$ | **0,1965 m/s** (limiet 0,25 m/s) |
 | Max schuiverversnelling | $\ddot s_{max}$ | **0,0511 m/s²** (limiet 0,10 m/s²) |
 | Max sluitingsfout | $\|\vec F\|$ | **4,7×10⁻¹³** → machineprecisie ✓ |
-| Max snelheid punt K | $|\dot{\vec K}|_{max}$ | **0,347 m/s** bij $s=1{,}638$ m |
-| Max versnelling punt K | $|\ddot{\vec K}|_{max}$ | **0,108 m/s²** bij $s=1{,}839$ m |
+| Max snelheid punt K | $\lvert\dot{\vec K}\rvert_{max}$ | **0,347 m/s** bij $s=1{,}638$ m |
+| Max versnelling punt K | $\lvert\ddot{\vec K}\rvert_{max}$ | **0,108 m/s²** bij $s=1{,}839$ m |
 | cond(A): min / gem / max | — | **4,70 / 22,4 / 68,4** |
 | Hoogste cond(A) bij | — | $s=1{,}875$ m (gesloten stand, snelheidsfactor 0,25) |
 | Kritische zones (cond(A) > 1000) | — | **0** — geen enkel dood punt in het werkbereik |
@@ -176,7 +176,7 @@ Resultaten worden opgeslagen als NB4-loadcases (`overdekking` en `overdekking_tr
 | **Utilisatie $U$** | $\max(\delta/\delta_{lim},\ \sigma_{vM}/\sigma_{toel},\ \theta/\theta_{lim})$ | Eén getal per case; $U<1$ = constructief OK |
 | **Von Mises spanning $\sigma_{vM}$** | $\sqrt{\sigma_b^2+3\tau_{eq}^2}$ | Combineert buig- en schuifspanning tot één toetswaarde |
 | **Mastmoment $M_{mast}$** | Koppel dat de schuiver op de mast uitoefent | Hoe sterk de mast/bevestiging "duwt" |
-| **Geleidingontwerpkracht $F_{guide}/F_{rol}$** | $F_{guide}=k_{SF}\max|R_{Ax}|$, $F_{rol}=F_{guide}/n_{rollen}$ | Wat elke rol/glijblok van de schuivergeleiding moet kunnen verdragen |
+| **Geleidingontwerpkracht** | $F_{guide}=k_{SF}\max\|R_{Ax}\|$, $F_{rol}=F_{guide}/n_{rollen}$ | Wat elke rol/glijblok van de schuivergeleiding moet kunnen verdragen |
 | **Trekveer (motion ratio = 1)** | Lineaire veer parallel aan schuiver, $F_{veer}=F_{voorspanning}+k\Delta x$ | Energiebuffer i.p.v. vliegwiel — past bij een traag, niet-cyclisch traject |
 | **Steunreacties A en C** | Lokale krachten in scharnieren van schuiver en frame | Veel groter dan netto framekracht — altijd per scharnier dimensioneren! |
 

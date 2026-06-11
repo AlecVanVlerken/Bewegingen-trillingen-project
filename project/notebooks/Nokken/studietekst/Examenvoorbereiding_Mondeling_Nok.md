@@ -358,35 +358,41 @@ As en lagers moeten meeschalen met N (torsie + buiging door N normaalkrachten).
 
 ### Kernantwoord
 
-**Direct antwoord:** bij toerental 120 → 180 rpm blijft de geometrie (s(θ), drukhoek, ondersnijding) volledig ongewijzigd — enkel de tijdgebaseerde grootheden schalen met ω²: versnelling en inertiekracht ×2,25, vliegwieltraagheid ×0,44 (kleiner). Verificatie vereist enkel het herrekenen van Nok_2 met T_cyclus = 1/3.
+**Direct antwoord:** de aanpak is steeds dezelfde drie stappen: **(1)** een parameter wijzigen, **(2)** op basis van fysisch inzicht voorspellen wat er met drukhoek/krachten/vermogen/resonantie gebeurt, en **(3)** dat numeriek bevestigen in Nok_1/Nok_2. De tabel hieronder geeft zes representatieve parameters — inclusief R₀, R_r, de drukhoekgrens (α) en het toerental — telkens met wat **verandert**, wat **(ongeveer) constant blijft**, en een korte verklaring.
 
-**Wijziging**: toerental 120 → 180 rpm (+50%, T = 0,333 s).
+| Parameter die je wijzigt | Wat verandert | Wat blijft (ongeveer) constant | Korte uitleg |
+|---|---|---|---|
+| **Steekcirkelstraal R₀**<br>(`50 mm → 40 mm`, compacter) | • Drukhoek α_max: `21,86° → ~32-33°` (boven `30°`-grens)<br>• Zijwrijving en motorkoppel stijgen, snellere slijtage | • Heffing (`50 mm`) en bewegingswet (5e-gr. polynoom)<br>• Toerental, m, k | Kleinere R₀ = minder hefboomarm voor dezelfde heffing → steilere drukhoek; `R₀ ≈ 46 mm` is de ondergrens voor `α < 30°`. → *Nok_1*, Kloomok-Muffley-analyse herrekenen. |
+| **Volgerrolstraal R_r**<br>(`15 mm → 25/30 mm`) | • Contactdruk daalt (langere levensduur)<br>• Ondersnijdingsmarge daalt: `25,6 mm → 15,6 mm` (`R_r=25`) / `→ 10,6 mm` (`R_r=30`)<br>• Rolmassa/inertie stijgt licht | • Drukhoek α(θ) — hangt af van R₀ en `ds/dθ`, niet van R_r<br>• Heffing, bewegingswet, toerental | Grotere rol = lagere contactspanning, maar `ρ_pitch,min = 40,6 mm` blijft vast → minder ondersnijdingsmarge en iets meer massa. → *Nok_1*, ondersnijdingscontrole `ρ_pitch > R_r`. |
+| **Toerental**<br>(`120 → 180 rpm`) | • a_max: `9,89 → 22,3 m/s²` (`ω² = 2,25`)<br>• F_inertie,max: `287 → 646 N` (`×2,25`)<br>• I_vliegwiel: `8,35 → 3,71 kg·m²` (`×0,44 = 1/ω²`)<br>• r₁: `0,43 → 0,64`; r₂: `0,86 → 1,28` | • s(θ), drukhoek α(θ), kromtestraal ρ(θ) — pure geometrie | `a ∝ ω²` — geometrie (Nok_1) en snelheid (Nok_2) zijn volledig ontkoppeld; enkel `T_cyclus` aanpassen. → *Nok_2*, `T_cyclus = 1/3`. |
+| **Drukhoekgrens (α)**<br>(`30° → 35°` of `→ 25°`) | • Minimaal toelaatbare R₀ verschuift (`≈ 46 mm` bij `30°`; lager bij `35°`, hoger bij `25°`)<br>• Geeft ontwerpvrijheid om R₀ te verkleinen (of dwingt R₀ te vergroten) | • Heffing, bewegingswet, toerental — puur een ontwerpgrens, geen fysische wijziging | `30°` is een vuistregel tegen overmatige zijwrijving/zelfblokkering (huidige marge: `21,86°` vs `30°`); een ruimere grens staat een kleinere nok toe, ten koste van wrijving/slijtage. → *Nok_1*, grenslijn in Kloomok-Muffley-grafiek verschuiven. |
+| **Veerstijfheid k**<br>(`25 000 → 100 000 N/m`) | • ω_n: `4,67 → 9,34 Hz`; r₁: `0,43 → 0,21`; r₂: `0,86 → 0,43` (beide veiliger)<br>• DMF (2e harmonisch): `~3,3 → ~1,2`<br>• Normaalkracht/wrijving/motorvermogen stijgen | • s(θ), v(θ), a(θ), drukhoek, ondersnijding — kinematica blijft identiek | Stijvere veer duwt beide resonantieverhoudingen weg van `1` (veiliger tegen zweefgedrag), maar verhoogt continue veerkracht/wrijvingsvermogen. → *Nok_2*, `k` aanpassen en normaalkracht/vermogen herrekenen. |
+| **Aantal nokken N parallel**<br>(`1 → 2`, in fase vs. `180°` gefaseerd) | • P_gem, M_gem: `×N` (`110→220 W`, `8,78→17,56 Nm`)<br>• ΔE/vliegwiel: `×N` in fase (`65,9→131,8 J`) of `~50%` minder bij `180°` gefaseerd<br>• As/lagers moeten meeschalen | • s(θ), v(θ), a(θ), drukhoek, ondersnijding en veerontwerp per volger — per-nok kinematica blijft identiek | Extra nokken schalen vermogen/koppel lineair; fasering bepaalt of de energiefluctuatie meeschaalt of net afvlakt — analoog aan een meercilindermotor. → *Nok_2*, `M₁(θ) + M₂(θ+180°)` optellen. |
 
-Het profiel s(θ) is **hoekgebaseerd en verandert niet** — geometrie (R₀, R_r, drukhoek, ondersnijding) blijft identiek. Alleen tijdgebaseerde grootheden veranderen, want a ∝ ω²:
+**Detail bij parameter 3 (toerental) — exacte cijfers:**
 
 | Grootheid | 120 rpm | 180 rpm | Factor |
-|-----------|---------|---------|--------|
-| a_max | 9,89 m/s² | 22,3 m/s² | ω² = 2,25 |
-| F_inertie,max | 287 N | 646 N | 2,25 |
-| Preload (geschat) | 300 N | ~500 N | — |
-| I_vliegwiel | 8,35 kg·m² | 3,71 kg·m² | 1/ω² = 0,44 |
-| r₁ (sub-resonant?) | 0,43 | 0,64 (nog OK) | — |
-| r₂ (2e harmonisch) | 0,86 (kritisch) | 1,28 (boven resonantie, minder gevaarlijk) | — |
-
-**Verificatie**: enkel `T_cyclus = 1/3` aanpassen in Nok_2 en herberekenen — Nok_1 hoeft niet opnieuw, want geometrie is snelheidsonafhankelijk.
+|---|---:|---:|---:|
+| a_max | `9,89 m/s²` | `22,3 m/s²` | `ω² = 2,25` |
+| F_inertie,max | `287 N` | `646 N` | `2,25` |
+| Preload (geschat) | `300 N` | `~500 N` | — |
+| I_vliegwiel | `8,35 kg·m²` | `3,71 kg·m²` | `1/ω² = 0,44` |
+| r₁ (sub-resonant?) | `0,43` | `0,64` (nog OK) | — |
+| r₂ (2e harmonisch) | `0,86` (kritisch) | `1,28` (boven resonantie, minder gevaarlijk) | — |
 
 ### Wat als...
 
-- **Moet Nok_1 herrekend worden?** Nee — s(θ), drukhoek en kromtestraal zijn puur geometrisch; rpm beïnvloedt enkel v en a (via ω).
-- **Welke parameter verandert de drukhoek het meest?** R₀ (kleiner → α stijgt sterk). Toerental heeft géén effect — geometrie en snelheid zijn volledig ontkoppeld.
+- **Moet Nok_1 herrekend worden bij toerentalwijziging?** Nee — s(θ), drukhoek en kromtestraal zijn puur geometrisch; rpm beïnvloedt enkel v en a (via ω).
+- **Welke parameter verandert de drukhoek het meest?** R₀ (kleiner → α stijgt sterk, zie tabel rij 1). Toerental heeft géén effect — geometrie en snelheid zijn volledig ontkoppeld.
 - **Maximale veilige snelheid bij de huidige preload (300 N)?** ω_max ≈ 12,9 rad/s ≈ **123 rpm** — we zitten al exact op de grens. Eerst preload naar 500 N verhogen vóór sneller draaien.
 
 ### Grafieken om te tonen
 
 | Grafiek | Wat aanwijzen aan de prof |
 |---------|---------------------------|
-| **Kinematisch volgerprofiel** s/v/a/j(θ) — *Nok_1* | Wijs aan dat s(θ) (vorm) ongewijzigd blijft, terwijl a(θ) en j(θ) na herberekening in Nok_2 met factor 2,25 resp. 3,375 schalen. |
-| **Drukhoek α(θ)** — *Nok_1* | Wijs aan dat deze curve volledig ongewijzigd blijft bij toerentalwijziging — geometrie ≠ snelheid. |
+| **Kinematisch volgerprofiel** s/v/a/j(θ) — *Nok_1* | Wijs aan dat s(θ) (vorm) ongewijzigd blijft, terwijl a(θ) en j(θ) na herberekening in Nok_2 met factor 2,25 resp. 3,375 schalen bij toerentalwijziging. |
+| **Drukhoek α(θ) en Kloomok-Muffley-grenslijn** — *Nok_1* | Wijs aan hoe α_max verschuift bij een andere R₀ of een andere drukhoekgrens, en hoe dit de minimale R₀ bepaalt. |
+| **Normaalkracht met componenten** — *Nok_2* | Wijs aan hoe de veerkracht-component (en dus de totale normaalkracht) verandert bij een andere `k`. |
 
 ---
 
